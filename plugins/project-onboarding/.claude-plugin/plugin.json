@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "project-onboarding",
+  "displayName": "Project Onboarding",
+  "version": "0.1.0",
+  "description": "Generates focused onboarding documentation from repository code, configuration, and configured external context to help engineers, reviewers, and AI agents understand and contribute to a project.",
+  "author": {
+    "name": "Awesome Agents"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "onboarding",
+    "documentation",
+    "repository-analysis",
+    "knowledge-base",
+    "jira",
+    "confluence"
+  ]
+}

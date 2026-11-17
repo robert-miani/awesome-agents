@@ -1,0 +1,44 @@
+@startuml
+skinparam shadowing false
+
+title Developer-Agent Execution Loop
+
+participant "Normalized Task\nInformation" as Task
+participant "Slim Agent Wrapper" as Wrapper
+participant "Claude Code" as Claude
+participant "Git Repository" as Git
+participant "Pull Request System" as PR
+
+Task -> Wrapper : Run task
+Wrapper -> Git : Resolve working context\nand branch
+Wrapper -> PR : Detect existing PR
+
+alt Existing PR already represents task
+    PR --> Wrapper : PR found
+    Wrapper --> Task : Complete with existing PR
+else No completed PR
+    loop Until ready for PR
+        Wrapper -> Claude : Compare task with branch\nusing profile and skills
+        Claude -> Git : Inspect branch state
+        Claude --> Wrapper : Complete? / missing work
+
+        alt Task already implemented
+            Claude --> Wrapper : Ready for PR
+        else More work needed
+            Wrapper -> Claude : Continue implementation\nusing profile and skills
+            Claude -> Git : Edit, test, and inspect
+            Claude --> Wrapper : Progress result
+
+            opt Checkpoint useful
+                Wrapper -> Claude : Commit and push checkpoint
+                Claude -> Git : Commit and push
+                Claude --> Wrapper : Checkpoint pushed
+            end
+        end
+    end
+
+    Wrapper -> PR : Create pull request
+    PR --> Wrapper : PR created
+    Wrapper --> Task : Complete with PR
+end
+@enduml

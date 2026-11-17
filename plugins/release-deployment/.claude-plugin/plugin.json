@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "release-deployment",
+  "displayName": "Release & Deployment",
+  "version": "0.1.0",
+  "description": "Covers CI/CD operations, Azure resource management, rollout planning, and infrastructure diagnostics for DevOps engineers.",
+  "author": {
+    "name": "Awesome Agents"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "devops",
+    "azure",
+    "ci-cd",
+    "deployment",
+    "infrastructure",
+    "release"
+  ]
+}

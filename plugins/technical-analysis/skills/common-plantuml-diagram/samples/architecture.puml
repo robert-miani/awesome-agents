@@ -1,0 +1,38 @@
+@startuml architecture
+
+skinparam componentStyle rectangle
+skinparam linetype ortho
+
+title Microservices Architecture
+
+package "Client Layer" {
+    [Web App] as Web
+    [Mobile App] as Mobile
+}
+
+package "API Gateway" {
+    [Gateway] as GW
+}
+
+package "Services" {
+    [Auth Service] as Auth
+    [Order Service] as Orders
+    [Notification Service] as Notify
+}
+
+package "Data Layer" {
+    database "Auth DB" as AuthDB
+    database "Orders DB" as OrdersDB
+    queue "Message Bus" as Bus
+}
+
+Web --> GW
+Mobile --> GW
+GW --> Auth
+GW --> Orders
+Auth --> AuthDB
+Orders --> OrdersDB
+Orders --> Bus
+Bus --> Notify
+
+@enduml

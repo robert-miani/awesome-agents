@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "technical-planning",
+  "displayName": "Technical Planning",
+  "version": "0.1.0",
+  "description": "Translates a specification into architecture documents, component diagrams, and a task breakdown ready for implementation.",
+  "author": {
+    "name": "Awesome Agents"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "architecture",
+    "planning",
+    "diagrams",
+    "dotnet",
+    "hexagonal",
+    "task-breakdown"
+  ]
+}

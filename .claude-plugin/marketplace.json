@@ -1,0 +1,124 @@
+{
+  "name": "awesome-agents",
+  "description": "Curated AI agent skills and plugins for the full software delivery lifecycle — onboarding, discovery, spec, planning, implementation, review, testing, and deployment.",
+  "version": "0.2.0",
+  "owner": {
+    "name": "Robert Miani",
+    "email": "robert.miani@abysalto.eu"
+  },
+  "metadata": {
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "project-onboarding",
+      "source": "project-onboarding",
+      "displayName": "Project Onboarding",
+      "description": "Generates focused onboarding documentation from repository code, configuration, and configured external context to help engineers, reviewers, and AI agents understand and contribute to a project.",
+      "version": "0.1.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "onboarding",
+      "keywords": ["onboarding", "documentation", "repository-analysis", "knowledge-base", "jira", "confluence"]
+    },
+    {
+      "name": "product-discovery",
+      "source": "product-discovery",
+      "displayName": "Product Discovery",
+      "description": "Product-management discovery and shaping: turn fuzzy ideas and signals into problem & opportunity briefs, a PRD, and a prioritized, spec-ready scope.",
+      "version": "0.1.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "discovery",
+      "keywords": ["product-discovery", "product-management", "problem-brief", "opportunity-brief", "prd", "prioritization"]
+    },
+    {
+      "name": "requirements-specification",
+      "source": "requirements-specification",
+      "displayName": "Requirements Specification",
+      "description": "Turns raw inputs (Word docs, Jira issues, stakeholder notes, existing specs) into structured specifications — user stories, acceptance criteria, PRDs, traceability, gap/impact analysis, process flows, and tracker-ready issue breakdowns.",
+      "version": "0.2.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "business-analysis",
+      "keywords": ["requirements", "specification", "business-analysis", "user-stories", "acceptance-criteria", "prd", "traceability", "gap-analysis", "process-flow", "diagrams", "jira"]
+    },
+    {
+      "name": "technical-analysis",
+      "source": "technical-analysis",
+      "displayName": "Technical Analysis",
+      "description": "Code-grounded technical analysis: feasibility and impact assessment from the repository, data dictionary / source-to-target mapping, and implementation-ready frontend tickets.",
+      "version": "0.1.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "business-analysis",
+      "keywords": ["technical-analysis", "feasibility", "development-assessment", "data-mapping", "frontend-tickets", "accessibility"]
+    },
+    {
+      "name": "technical-planning",
+      "source": "technical-planning",
+      "displayName": "Technical Planning",
+      "description": "Translates a specification into architecture documents, component diagrams, and a task breakdown ready for implementation.",
+      "version": "0.1.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "planning",
+      "keywords": ["architecture", "planning", "diagrams", "dotnet", "hexagonal", "task-breakdown"]
+    },
+    {
+      "name": "implementation-dotnet",
+      "source": "implementation-dotnet",
+      "displayName": "Implementation — .NET",
+      "description": "Scaffolds and implements .NET backend features following clean architecture, MediatR, and EF Core conventions on a feature branch.",
+      "version": "0.1.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "implementation",
+      "keywords": ["dotnet", "csharp", "backend", "mediatr", "ef-core", "clean-architecture", "feature"]
+    },
+    {
+      "name": "implementation-react",
+      "source": "implementation-react",
+      "displayName": "Implementation — React",
+      "description": "Implements React + TypeScript frontend features following a feature-based Vite architecture — full skill stack covering architecture, style, API clients, data fetching, testing, scaffolding, and feature delivery.",
+      "version": "0.1.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "implementation",
+      "keywords": ["react", "typescript", "frontend", "spa", "feature"]
+    },
+    {
+      "name": "code-review",
+      "source": "code-review",
+      "displayName": "Code Review",
+      "description": "Reviews code diffs for style violations, clean code principles, and security vulnerabilities; produces a structured review report.",
+      "version": "0.1.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "review",
+      "keywords": ["code-review", "security", "clean-code", "dotnet", "static-analysis"]
+    },
+    {
+      "name": "qa-testing",
+      "source": "qa-testing",
+      "displayName": "QA & Testing",
+      "description": "Supports test generation, bug triage, and test planning for QA automation engineers. Additional skills planned.",
+      "version": "0.1.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "testing",
+      "keywords": ["qa", "testing", "test-generation", "bug-triage", "automation"]
+    },
+    {
+      "name": "release-deployment",
+      "source": "release-deployment",
+      "displayName": "Release & Deployment",
+      "description": "Covers CI/CD operations, Azure resource management, rollout planning, and infrastructure diagnostics for DevOps engineers.",
+      "version": "0.1.0",
+      "author": { "name": "Awesome Agents" },
+      "license": "Proprietary",
+      "category": "deployment",
+      "keywords": ["devops", "azure", "ci-cd", "deployment", "infrastructure", "release"]
+    }
+  ]
+}

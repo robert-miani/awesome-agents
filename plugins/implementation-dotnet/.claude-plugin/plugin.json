@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "implementation-dotnet",
+  "displayName": "Implementation — .NET",
+  "version": "0.1.0",
+  "description": "Scaffolds and implements .NET backend features following clean architecture, MediatR, and EF Core conventions on a feature branch.",
+  "author": {
+    "name": "Awesome Agents"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "dotnet",
+    "csharp",
+    "backend",
+    "mediatr",
+    "ef-core",
+    "clean-architecture",
+    "feature"
+  ]
+}

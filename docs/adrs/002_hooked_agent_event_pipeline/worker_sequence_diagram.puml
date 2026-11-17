@@ -1,0 +1,44 @@
+@startuml
+title Agent Worker Sequence Diagram
+
+queue "AWS SQS\nMain Queue" as Sqs
+participant "AWS ECS Task\nAgent Worker" as Worker
+participant "Jira REST API" as Jira
+participant "Git Hosting" as Git
+participant "Git Workspace\ninside ECS task" as Workspace
+participant "Claude Code or\nDeterministic Placeholder" as Runtime
+
+Sqs -> Worker : Deliver message
+Worker -> Jira : Fetch issue details
+Jira --> Worker : Task context
+Worker -> Worker : Derive convention-based branch name
+Worker -> Git : Check pull request for branch
+
+alt Pull request already exists
+    Git --> Worker : Existing PR found
+    Worker -> Sqs : Delete message
+else Pull request does not exist
+    Worker -> Git : Check branch
+
+    alt Branch exists
+        Git --> Worker : Existing branch found
+        Worker -> Workspace : Clone branch
+        Worker -> Workspace : Compare branch with task
+    else Branch does not exist
+        Git --> Worker : No branch found
+        Worker -> Workspace : Create branch from base
+    end
+
+    loop Until branch is complete or processing must stop
+        Worker -> Runtime : Run implementation step
+        Runtime --> Worker : Changes or completion result
+        Worker -> Workspace : Commit atomic progress
+        Worker -> Git : Push branch
+    end
+
+    Worker -> Git : Create pull request
+    Git --> Worker : Pull request created
+    Worker -> Sqs : Delete message
+end
+
+@enduml

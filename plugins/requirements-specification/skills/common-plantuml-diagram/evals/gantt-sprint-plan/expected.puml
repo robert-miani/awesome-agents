@@ -1,0 +1,16 @@
+@startgantt
+Project starts 2026-05-26
+printscale weekly
+
+[Sprint 1] lasts 14 days
+[Sprint 2] lasts 14 days
+[Sprint 3] lasts 14 days
+[Sprint 4] lasts 14 days
+[Sprint 5] lasts 14 days
+
+[Sprint 2] starts at [Sprint 1]'s end
+[Sprint 3] starts at [Sprint 2]'s end
+[Sprint 4] starts at [Sprint 3]'s end
+[Sprint 5] starts at [Sprint 4]'s end
+
+@endgantt

@@ -1,0 +1,34 @@
+@startmindmap mindmap
+
+title Microservices Architecture Concerns
+
+* Microservices
+** Communication
+*** Synchronous
+**** REST / HTTP
+**** gRPC
+*** Asynchronous
+**** Message Bus
+**** Event Streaming
+** Data Management
+*** Database per Service
+*** Event Sourcing
+*** CQRS
+** Resilience
+*** Circuit Breaker
+*** Retry / Backoff
+*** Bulkhead
+** Observability
+*** Distributed Tracing
+*** Centralized Logging
+*** Health Checks
+** Security
+*** Service-to-Service AuthN
+*** API Gateway Auth
+*** Secrets Management
+** Deployment
+*** Containers
+*** Orchestration
+*** CI/CD Pipeline
+
+@endmindmap

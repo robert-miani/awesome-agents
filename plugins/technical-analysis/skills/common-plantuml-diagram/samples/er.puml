@@ -1,0 +1,44 @@
+@startuml er
+
+title E-Commerce Entity Relationship
+
+entity "Customer" as customer {
+    * customer_id : UUID <<PK>>
+    --
+    * email : VARCHAR(255)
+    * full_name : VARCHAR(255)
+    created_at : TIMESTAMP
+}
+
+entity "Order" as order {
+    * order_id : UUID <<PK>>
+    --
+    * customer_id : UUID <<FK>>
+    * status : VARCHAR(50)
+    * total_amount : DECIMAL
+    placed_at : TIMESTAMP
+}
+
+entity "OrderLine" as line {
+    * line_id : UUID <<PK>>
+    --
+    * order_id : UUID <<FK>>
+    * product_id : UUID <<FK>>
+    * quantity : INT
+    * unit_price : DECIMAL
+}
+
+entity "Product" as product {
+    * product_id : UUID <<PK>>
+    --
+    * name : VARCHAR(255)
+    * sku : VARCHAR(100)
+    * price : DECIMAL
+    stock_qty : INT
+}
+
+customer ||--o{ order : places
+order ||--|| line : "contains"
+product ||--o{ line : "appears in"
+
+@enduml

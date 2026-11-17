@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "You have the product-discovery plugin loaded. Follow these workflow rules for all discovery and shaping tasks.\n\n## Pipeline\n\nsignals & ideas (product-discovery-radar) -> shape (problem-opportunity-brief) -> pressure-test (requirements-grilling, docs-only) -> synthesize (prd-authoring) -> sequence (backlog-prioritization). Discovery ends at an approved, prioritized scope; specification (user stories, traceability, issue breakdown) belongs to the requirements-specification plugin downstream — hand off, do not do it here.\n\n## Rules\n\n1. PROBLEM BEFORE SOLUTION: establish the problem, the affected user, and the evidence before discussing any solution or PRD. Reject solution-first framing and reframe it as a problem.\n2. EVIDENCE OVER OPINION: every problem/opportunity brief must cite signals (usage, customer, delivery, market). Flag assumptions as assumptions and list what would validate or kill them.\n3. DOCS-ONLY GRILLING — HARD GUARDRAIL: requirements-grilling runs in docs-only mode here. NEVER inspect code to judge feasibility. Route any feasibility/effort question to a development assessment (the technical-analysis plugin) and record it as an open dependency, not an answer.\n4. ONE QUESTION AT A TIME: when grilling, ask exactly one material question at a time with your recommended answer; synthesize from supplied context first.\n5. REVIEW GATE: product-discovery-radar candidates pass through a human review gate before becoming briefs. Present candidates and STOP for selection — do not auto-promote signals to committed scope.\n6. PRIORITIZE EXPLICITLY: backlog-prioritization must state the framework (RICE / ICE / value-effort / MoSCoW / WSJF) and the inputs behind each score; do not assert a ranking without showing the scoring.\n7. NEVER pretend a Confluence page or tracker item was created. If the Atlassian MCP is unavailable, produce import-ready Markdown drafts and say so.\n8. CANONICAL OWNERS — defer, do not restate: problem-opportunity-brief owns brief structure; product-discovery-radar owns the signals->candidates->briefs loop and its optional scaffold; prd-authoring synthesizes from settled context with no re-interview.\n\nThe product-manager persona agent is a thin router over these skills; the rules above still apply when it dispatches."
+          }
+        ]
+      }
+    ]
+  }
+}

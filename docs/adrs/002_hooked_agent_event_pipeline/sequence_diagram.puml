@@ -1,0 +1,62 @@
+@startuml
+title Hooked Agent Processing Sequence
+
+actor "Jira User" as User
+participant "Jira" as Jira
+participant "API Gateway" as Api
+participant "Webhook Receiver\nLambda" as Lambda
+queue "SQS Main Queue" as Sqs
+participant "ECS Agent Worker" as Worker
+participant "Jira REST API" as JiraApi
+participant "Git Provider" as Git
+participant "Claude Code or\nDeterministic Placeholder" as Agent
+
+User -> Jira : Assign issue to agent user
+Jira -> Api : Send webhook or automation request
+Api -> Lambda : Invoke receiver
+Lambda -> Lambda : Verify request authorization
+Lambda -> Lambda : Check configured agent assignee
+
+alt Assignee is not a configured agent user
+    Lambda --> Api : 204 Ignored
+    Api --> Jira : 2xx
+else Assignee is a configured agent user
+    Lambda -> Sqs : Publish compact message\n(issueKey, event, assignee)
+    Lambda --> Api : 202 Accepted
+    Api --> Jira : 2xx
+end
+
+Worker -> Sqs : Receive message
+Worker -> JiraApi : Fetch issue details
+JiraApi --> Worker : Issue fields and task context
+Worker -> Worker : Derive convention-based branch name
+Worker -> Git : Check branch and pull request
+
+alt Pull request already exists
+    Git --> Worker : Existing PR found
+    Worker -> Sqs : Delete message
+else Branch already exists
+    Git --> Worker : Existing branch found
+    Worker -> Git : Clone branch and compare with task
+    Worker -> Agent : Continue implementation
+    Agent --> Worker : Changes or completion result
+    Worker -> Git : Push atomic commits
+    Worker -> Git : Create PR when complete
+    Worker -> Sqs : Delete message
+else No branch exists
+    Git --> Worker : No branch or PR found
+    Worker -> Git : Create branch from base
+    Worker -> Agent : Start implementation
+    Agent --> Worker : Changes or completion result
+    Worker -> Git : Push atomic commits
+    Worker -> Git : Create PR when complete
+    Worker -> Sqs : Delete message
+end
+
+alt Worker fails before successful completion
+    Worker --> Sqs : Message not deleted
+    Sqs -> Sqs : Visibility timeout expires
+    Sqs -> Worker : Redeliver up to configured retry count
+end
+
+@enduml

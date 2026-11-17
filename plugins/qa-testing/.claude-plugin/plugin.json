@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "qa-testing",
+  "displayName": "QA & Testing",
+  "version": "0.1.0",
+  "description": "Supports test generation, bug triage, and test planning for QA automation engineers. Additional skills planned.",
+  "author": {
+    "name": "Awesome Agents"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "qa",
+    "testing",
+    "test-generation",
+    "bug-triage",
+    "automation"
+  ]
+}

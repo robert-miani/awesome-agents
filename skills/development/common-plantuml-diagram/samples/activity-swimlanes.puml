@@ -1,0 +1,38 @@
+@startuml activity-swimlanes
+
+title Order Processing Flow
+
+|Customer|
+start
+:Place order;
+
+|#AntiqueWhite|Order Service|
+:Validate order;
+if (Stock available?) then (yes)
+    :Reserve inventory;
+    :Create payment intent;
+    |Payment Service|
+    :Charge customer;
+    if (Payment successful?) then (yes)
+        |Order Service|
+        :Confirm order;
+        |Warehouse|
+        :Pick & pack items;
+        :Hand off to carrier;
+        |Customer|
+        :Receive shipping notification;
+        stop
+    else (no)
+        |Order Service|
+        :Release inventory reservation;
+        |Customer|
+        :Notify payment failure;
+        stop
+    endif
+else (no)
+    |Customer|
+    :Notify out of stock;
+    stop
+endif
+
+@enduml

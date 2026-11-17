@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "requirements-specification",
+  "displayName": "Requirements Specification",
+  "version": "0.2.0",
+  "description": "Turns raw inputs (Word docs, Jira issues, stakeholder notes, existing specs) into structured specifications — user stories, acceptance criteria, PRDs, traceability, gap/impact analysis, process flows, and tracker-ready issue breakdowns.",
+  "author": {
+    "name": "Awesome Agents"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "requirements",
+    "specification",
+    "business-analysis",
+    "user-stories",
+    "acceptance-criteria",
+    "prd",
+    "traceability",
+    "gap-analysis",
+    "process-flow",
+    "diagrams",
+    "jira"
+  ]
+}

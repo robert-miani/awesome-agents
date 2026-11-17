@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "technical-analysis",
+  "displayName": "Technical Analysis",
+  "version": "0.1.0",
+  "description": "Code-grounded technical analysis: feasibility and impact assessment from the repository, data dictionary / source-to-target mapping, and implementation-ready frontend tickets.",
+  "author": {
+    "name": "Awesome Agents"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "technical-analysis",
+    "feasibility",
+    "development-assessment",
+    "data-mapping",
+    "frontend-tickets",
+    "accessibility"
+  ]
+}

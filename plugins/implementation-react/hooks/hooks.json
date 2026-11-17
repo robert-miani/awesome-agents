@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "You have the implementation-react plugin loaded. Follow these rules for all React tasks.\n\n## Skill load order\n\n1. react-architecture — always; structure, feature folders, dependency rules\n2. react-code-style — always; naming, imports, component conventions\n3. react-typescript — always; strict types, Zod, no `any`\n4. react-configuration — config, env vars, feature flags\n5. react-api-client — axios clients, interceptors, auth\n6. react-data-fetching — TanStack Query hooks, mutations, keys\n7. react-unit-testing — Vitest, Testing Library, mocks\n8. react-scaffold — NEW PROJECTS ONLY\n9. react-feature — adding functionality to EXISTING apps\n\n## Scenario rules\n\n**New project:** load 1–6 → react-scaffold (ask pre-scaffold questions first) → react-api-client (wire clients) → verify with `pnpm local`, `pnpm test`, `pnpm check` → react-feature for first business feature.\n\n**Add feature to existing app:** load 1–6 → react-feature (checklist: types → api → hooks → UI → routes → tests). Add react-api-client only if the feature changes interceptors, adds a new client type, or touches auth.\n\n**API / auth only:** load 1, 3, 4, 5. Do not load scaffold or feature unless routes or pages also change.\n\n**Tests only:** load 1, 2, 7. Add react-feature context if testing a specific feature module.\n\n## Quick reference\n\n- Where does this file go? → react-architecture\n- Code review / generate TSX → + react-code-style, react-typescript\n- Env var or API URL → + react-configuration\n- axios / 401 / interceptors → + react-api-client\n- useQuery / server state → + react-data-fetching\n- Write or fix a test → + react-unit-testing\n- Bootstrap a new repo → + react-scaffold\n- New screen + API calls → + react-feature\n\n## Gotchas\n\n- NEVER load react-scaffold on an existing codebase — use react-feature instead.\n- react-api-client owns axios instances. react-feature owns feature-level `*.api.ts` fetchers. Do not put axios instance creation in a feature file.\n- Tests always live in root `tests/` mirroring `src/` — never inside `src/features/`.\n- If your organization maintains a reference React template, fork it first, then apply the architecture mapping via react-scaffold."
+          }
+        ]
+      }
+    ]
+  }
+}

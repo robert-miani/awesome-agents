@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+skinparam backgroundColor #FFFFFF
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam ArrowColor #555555
+
+title Slim Agent Wrapper Boundary
+
+[Normalized Task\nInformation] as Task
+
+package "Agent Logic Boundary" {
+    [Slim Agent Wrapper\nminimal orchestration] as Wrapper
+    [Agent Profile\nand Skill Bundle\nspecialization] as Skills
+    [Claude Code\nplanning, editing,\ntool execution] as Claude
+    [Deterministic Placeholder\ntest double] as Placeholder
+}
+
+[Repository Review Flow\nGit branch state\nRepo artifacts\nPull request review] as External
+
+Task --> Wrapper
+
+Wrapper --> Claude
+Wrapper --> Placeholder
+Wrapper --> External
+Claude --> Skills
+Claude --> External
+@enduml

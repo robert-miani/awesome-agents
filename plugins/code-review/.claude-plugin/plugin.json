@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "code-review",
+  "displayName": "Code Review",
+  "version": "0.1.0",
+  "description": "Reviews code diffs for style violations, clean code principles, and security vulnerabilities; produces a structured review report.",
+  "author": {
+    "name": "Awesome Agents"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "code-review",
+    "security",
+    "clean-code",
+    "dotnet",
+    "static-analysis"
+  ]
+}

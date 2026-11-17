@@ -1,0 +1,11 @@
+#!/bin/sh
+# Assemble skills into plugins and stage the results before every commit.
+# Blocks the commit only on IO errors (exit 1 from the script).
+# Missing source skills (not yet authored) are warned but do not block.
+
+node scripts/assemble-plugins.js || exit 1
+
+# Stage every assembled skill directory (identified by the .assembled marker)
+for marker in $(find plugins -name '.assembled' 2>/dev/null); do
+  git add -- "$(dirname "$marker")"
+done

@@ -1,0 +1,30 @@
+@startuml state
+
+title Order Lifecycle
+
+[*] --> Draft
+
+Draft --> Placed : customer confirms
+Placed --> InFulfillment : warehouse picks up
+InFulfillment --> Shipped : carrier collected
+
+state Shipped {
+    [*] --> InTransit
+    InTransit --> OutForDelivery : last-mile scan
+    OutForDelivery --> Delivered : delivery confirmed
+}
+
+Shipped --> Delivered
+
+Draft --> Cancelled : customer cancels
+Placed --> Cancelled : customer cancels\n[before fulfillment]
+InFulfillment --> Cancelled : inventory issue
+
+Delivered --> ReturnRequested : return initiated
+ReturnRequested --> Returned : items received
+
+Cancelled --> [*]
+Returned --> [*]
+Delivered --> [*]
+
+@enduml

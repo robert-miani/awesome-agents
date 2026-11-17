@@ -1,0 +1,44 @@
+@startuml usecase
+
+title E-Commerce Use Cases
+
+left to right direction
+
+actor Customer
+actor "Guest User" as Guest
+actor Admin
+actor "Payment Provider" as Payment <<external>>
+
+rectangle "E-Commerce Platform" {
+    usecase "Browse Products" as UC1
+    usecase "Search & Filter" as UC2
+    usecase "Add to Cart" as UC3
+    usecase "Place Order" as UC4
+    usecase "Process Payment" as UC5
+    usecase "Track Order" as UC6
+    usecase "Return Item" as UC7
+    usecase "Manage Products" as UC8
+    usecase "View Reports" as UC9
+    usecase "Register Account" as UC10
+}
+
+Guest --> UC1
+Guest --> UC2
+Guest --> UC10
+
+Customer --> UC1
+Customer --> UC2
+Customer --> UC3
+Customer --> UC4
+Customer --> UC6
+Customer --> UC7
+
+Admin --> UC8
+Admin --> UC9
+
+UC4 ..> UC5 : <<include>>
+UC5 --> Payment
+
+Customer --|> Guest : extends
+
+@enduml

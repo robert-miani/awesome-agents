@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "product-discovery",
+  "displayName": "Product Discovery",
+  "version": "0.1.0",
+  "description": "Product-management discovery and shaping: turn fuzzy ideas and signals into problem & opportunity briefs, a PRD, and a prioritized, spec-ready scope.",
+  "author": {
+    "name": "Awesome Agents"
+  },
+  "license": "Proprietary",
+  "keywords": [
+    "product-discovery",
+    "product-management",
+    "problem-brief",
+    "opportunity-brief",
+    "prd",
+    "prioritization"
+  ]
+}

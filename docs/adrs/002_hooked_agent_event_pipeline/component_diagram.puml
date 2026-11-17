@@ -1,0 +1,43 @@
+@startuml
+title Hooked Agent Component Diagram
+
+skinparam componentStyle rectangle
+skinparam linetype ortho
+skinparam shadowing false
+left to right direction
+
+actor "Jira User" as JiraUser
+
+package "Jira" {
+    [Issue Assignment Event] as JiraEvent
+    [Jira Webhook or Automation] as JiraWebhook
+}
+
+package "AWS" {
+    [API Gateway] as ApiGateway
+    [Webhook Receiver\nAWS Lambda] as Lambda
+    queue "Main SQS Queue" as MainQueue
+    queue "Dead Letter Queue" as Dlq
+    [Agent Worker\nECS Task] as Worker
+}
+
+JiraUser --> JiraEvent : [1]
+JiraEvent --> JiraWebhook : [2]
+JiraWebhook --> ApiGateway : [3]
+ApiGateway --> Lambda : [4]
+Lambda --> MainQueue : [5]
+MainQueue --> Worker : [6]
+MainQueue --> Dlq : [7]
+
+legend bottom
+|= # |= Event |
+| [1] | Issue assigned to configured agent Jira user |
+| [2] | Jira assignment event triggers webhook or automation |
+| [3] | HTTPS request delivered to API Gateway |
+| [4] | API Gateway invokes webhook receiver Lambda |
+| [5] | Lambda publishes compact message to SQS |
+| [6] | ECS worker polls main queue |
+| [7] | Message moves to DLQ after configured receive count |
+endlegend
+
+@enduml

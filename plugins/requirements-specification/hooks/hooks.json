@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "You have the requirements-specification plugin loaded. Follow these workflow rules for all business-analysis spec tasks.\n\n## Pipeline\n\nintake (requirements-source-ingestion / docx-to-md) -> interrogate (requirements-grilling) -> synthesize (prd-authoring) -> requirements (user-story-authoring) -> analysis (gap-impact-analysis, requirements-traceability-matrix, process-flow-modelling) -> decompose & publish (issue-decomposition, confluence-to-jira-stories). Never jump to issue/task breakdown while upstream scope is still unapproved.\n\n## Rules\n\n1. SYNTHESIZE BEFORE INTERVIEW: read the supplied sources, AGENTS.md, README, ADRs, and tracker context first. Ask a question only when a missing decision blocks the deliverable, and ask exactly ONE material question at a time with your recommended answer.\n2. APPROVAL CHECKPOINTS: present the story/issue breakdown and STOP for explicit approval of granularity, dependencies, and HITL/AFK classification before publishing or creating tracker items.\n3. HITL vs AFK: mark a work item AFK only when it can proceed with no further human input; mark HITL when product, design, architecture, or compliance must decide first.\n4. TRACEABILITY BY DEFAULT: give every requirement a unique ID traceable to a source reference and to its acceptance criteria. Preserve source links, page titles, requirement IDs, and the exact decision-bearing phrases.\n5. CANONICAL OWNERS — defer to them, do not restate their rules: user-story-authoring owns story + Gherkin AC format; issue-decomposition owns vertical-slice tracer-bullet breakdown; requirements-traceability-matrix owns the RTM.\n6. FEASIBILITY: implementation feasibility is answered by code-grounded analysis (the technical-analysis plugin / development-assessment), never from intuition. requirements-grilling here defaults to code-aware mode when a repo is present.\n7. SOURCE CONFLICT: when sources disagree, preserve the conflict and ask which source wins before producing dependent work.\n8. NEVER pretend a tracker was updated. If the Atlassian MCP is unavailable, confluence-to-jira-stories and issue-decomposition produce import-ready drafts instead — say so explicitly.\n\nThe business-analyst persona agent is a thin router over these skills; the rules above still apply when it dispatches."
+          }
+        ]
+      }
+    ]
+  }
+}

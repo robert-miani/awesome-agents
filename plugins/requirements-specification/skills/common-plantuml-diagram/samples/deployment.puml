@@ -1,0 +1,49 @@
+@startuml deployment
+
+title Cloud Deployment Architecture
+
+node "Client Tier" {
+    [Browser] as browser
+    [Mobile App] as mobile
+}
+
+cloud "CDN" {
+    [Static Assets] as cdn
+}
+
+node "Azure" {
+    node "API Tier" {
+        [API Gateway] as apigw
+        [Auth Service\n(Container App)] as auth
+        [Order Service\n(Container App)] as orders
+    }
+
+    node "Data Tier" {
+        database "Azure SQL\n(Orders DB)" as sql
+        database "Redis Cache" as redis
+        storage "Blob Storage" as blob
+    }
+
+    node "Messaging" {
+        queue "Service Bus" as bus
+    }
+}
+
+node "External Services" {
+    [Payment Gateway] as payment
+    [Email Provider] as email
+}
+
+browser --> cdn : HTTPS
+browser --> apigw : HTTPS
+mobile --> apigw : HTTPS
+apigw --> auth
+apigw --> orders
+orders --> sql
+orders --> redis
+orders --> bus
+orders --> blob
+orders --> payment : REST
+bus --> email : async
+
+@enduml

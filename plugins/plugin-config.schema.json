@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "./plugin-config.schema.json",
+  "title": "Awesome Agents Plugin Config",
+  "description": "Defines SDLC-stage plugins and their skill composition for the awesome-agents repository.",
+  "type": "object",
+  "required": ["version", "plugins"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of this config file."
+    },
+    "plugins": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/plugin" }
+    }
+  },
+  "definitions": {
+    "plugin": {
+      "type": "object",
+      "required": ["name", "displayName", "stage", "purpose", "recommendedFor", "skills"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "maxLength": 64,
+          "description": "Kebab-case plugin name; must match the folder under plugins/."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Human-readable label shown in plugin listings."
+        },
+        "stage": {
+          "type": "string",
+          "enum": ["onboarding", "discovery", "spec", "planning", "implementation", "review", "testing", "deploy"],
+          "description": "SDLC pipeline stage this plugin serves."
+        },
+        "purpose": {
+          "type": "string",
+          "description": "One-line description of what this plugin does."
+        },
+        "recommendedFor": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "Team roles this plugin is intended for."
+        },
+        "skills": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/skill" },
+          "description": "Skills bundled in this plugin."
+        }
+      }
+    },
+    "skill": {
+      "type": "object",
+      "required": ["name", "source"],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "name": { "$ref": "#/definitions/skillName" },
+            "source": { "type": "string", "const": "assembly" },
+            "from": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]*/[a-z][a-z0-9-]*$",
+              "description": "Source path within skills/ to copy from (e.g. common/git-commit)."
+            }
+          },
+          "required": ["name", "source", "from"]
+        },
+        {
+          "properties": {
+            "name": { "$ref": "#/definitions/skillName" },
+            "source": { "type": "string", "const": "local" }
+          },
+          "required": ["name", "source"],
+          "not": { "required": ["from"] }
+        }
+      ]
+    },
+    "skillName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "maxLength": 64,
+      "description": "Skill directory name under the plugin's skills/ directory."
+    }
+  }
+}

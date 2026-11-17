@@ -1,0 +1,50 @@
+# Copy this file to the target repository as:
+# .claude/repo-knowledge.sources.yaml
+#
+# This example demonstrates repository-specific web context without Jira or
+# Confluence. Do not store credentials, tokens, cookies, or personal access
+# tokens here.
+
+repository:
+  name: Kerajel.NuclearEvaluation
+  aliases:
+    - NuclearEvaluation
+    - nuclearevaluation.com
+  owner_team: null
+  notes:
+    - Use these sources only for domain terminology and public-facing context.
+
+external_sources:
+  web:
+    - title: Nuclear Evaluation public site
+      url: https://nuclearevaluation.com/
+      reason: Product-facing context referenced by the repository.
+      use_for:
+        - Public terminology
+        - Product-facing purpose
+    - title: Nuclear fission
+      url: https://en.wikipedia.org/wiki/Nuclear_fission
+      reason: Domain background for nuclear evaluation terminology.
+      use_for:
+        - Domain terminology
+        - Physics concepts referenced by the repository
+    - title: Enriched uranium
+      url: https://en.wikipedia.org/wiki/Enriched_uranium
+      reason: Domain background for enrichment-related terminology.
+      use_for:
+        - Domain terminology
+    - title: Radioactive decay
+      url: https://en.wikipedia.org/wiki/Radioactive_decay
+      reason: Domain background for decay-related terminology.
+      use_for:
+        - Domain terminology
+
+context_rules:
+  use_external_sources_for:
+    - Domain terminology
+    - Public product context
+    - Background concepts that help readers interpret repository names
+  do_not_use_external_sources_for:
+    - Replacing repository evidence about current implementation
+    - Future roadmap or delivery timeline
+    - Secrets or credentials

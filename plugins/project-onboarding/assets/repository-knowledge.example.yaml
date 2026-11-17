@@ -1,0 +1,69 @@
+# Copy this file to a repository-local source map such as:
+# .claude/repo-knowledge.sources.yaml
+# docs/onboarding/SOURCES.yaml
+#
+# Do not store credentials, tokens, cookies, or personal access tokens here.
+
+repository:
+  name: example-service
+  aliases:
+    - example-api
+  owner_team: example-team
+  local_path_hint: null
+  notes:
+    - Primary backend service for the example product area.
+
+external_sources:
+  jira:
+    base_url: https://jira.example.com
+    auth_boundary: user-local-mcp
+    projects:
+      - key: EXAMPLE
+        reason: Primary delivery project for this repository.
+        components:
+          - example-service
+        labels:
+          - repository-example-service
+        jql:
+          - name: Recent architecture and operational context
+            query: >-
+              project = EXAMPLE AND component = example-service
+              ORDER BY updated DESC
+        issues:
+          - EXAMPLE-123
+          - EXAMPLE-456
+
+  confluence:
+    base_url: https://confluence.example.com
+    auth_boundary: user-local-mcp
+    spaces:
+      - key: ENG
+        reason: Engineering architecture notes for the service.
+    pages:
+      - title: Example Service Architecture
+        url: https://confluence.example.com/display/ENG/Example+Service+Architecture
+
+  web:
+    - title: Example product site
+      url: https://example.com/
+      reason: Product-facing context for terminology and user-visible workflows.
+      use_for:
+        - Product terminology
+        - User-facing workflow names
+
+mcp:
+  preferred_servers:
+    - atlassian
+  resource_hints:
+    - Use Claude Code @ autocomplete to select exact Jira or Confluence resources.
+
+context_rules:
+  use_external_sources_for:
+    - Business terminology
+    - Ownership and team context
+    - Historical decisions that explain current structure
+    - Known operational expectations
+  do_not_use_external_sources_for:
+    - Secrets or credentials
+    - Replacing repository evidence about current implementation
+    - Future roadmap or delivery timeline unless the user explicitly requests it

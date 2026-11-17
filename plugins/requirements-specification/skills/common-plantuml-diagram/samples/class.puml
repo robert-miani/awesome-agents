@@ -1,0 +1,53 @@
+@startuml class
+
+title Domain Class Diagram
+
+abstract class BaseEntity {
+    +Id: Guid
+    +CreatedAt: DateTime
+    +UpdatedAt: DateTime
+}
+
+class Order {
+    +CustomerId: Guid
+    +Status: OrderStatus
+    +TotalAmount: decimal
+    +Place(): void
+    +Cancel(): void
+}
+
+class OrderLine {
+    +ProductId: Guid
+    +Quantity: int
+    +UnitPrice: decimal
+    +LineTotal(): decimal
+}
+
+class Customer {
+    +Email: string
+    +FullName: string
+    +ShippingAddress: Address
+}
+
+enum OrderStatus {
+    Draft
+    Placed
+    Fulfilled
+    Cancelled
+}
+
+class Address {
+    +Street: string
+    +City: string
+    +PostalCode: string
+    +Country: string
+}
+
+BaseEntity <|-- Order
+BaseEntity <|-- Customer
+Order "1" *-- "1..*" OrderLine : contains
+Order "many" --> "1" Customer : belongs to
+Order --> OrderStatus
+Customer *-- Address
+
+@enduml

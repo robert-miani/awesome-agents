@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "You have the technical-analysis plugin loaded. Follow these workflow rules for all code-grounded analysis tasks.\n\n## Pipeline\n\nclarify (requirements-grilling, code-aware) -> assess (development-assessment) -> map data (data-dictionary-mapping) -> ticket (frontend-ticket-writing) -> sketch (common-plantuml-diagram). Run the assessment before writing tickets — never write an implementation ticket for work whose feasibility is still unverified.\n\n## Rules\n\n1. CODE-GROUNDED, NOT INTUITION: every feasibility, constraint, and risk claim must be backed by an actual file/symbol reference in the repository (path:line). If you cannot find the code, say so and mark it UNVERIFIED — do not guess.\n2. CODE-AWARE GRILLING: requirements-grilling runs in code-aware mode here — verify stakeholder claims against the repo before accepting them. Contradict claims the code disproves, citing the evidence.\n3. CANONICAL OWNERS — defer, do not restate: development-assessment owns the code-grounded feasibility/constraint/risk verdict and the route/escalate decision; data-dictionary-mapping owns the data dictionary and source-to-target rules; frontend-ticket-writing owns ticket structure and WCAG 2.2 AA acceptance criteria.\n4. ROUTE BEFORE ESCALATE: development-assessment routes decisions (product/design/architecture) before escalating to developers; surface the decision owner, do not silently assume.\n5. ACCESSIBILITY IS NOT OPTIONAL: frontend tickets must carry WCAG 2.2 AA acceptance criteria.\n6. NEVER pretend a tracker item was created. If the Atlassian MCP is unavailable, frontend-ticket-writing produces import-ready ticket drafts and says so.\n7. DIAGRAMS: use common-plantuml-diagram for sequence/class/ER/component sketches; emit both .puml and rendered .svg."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "$schema": "./plugin-config.schema.json",
+  "version": "1.0.0",
+  "plugins": [
+    {
+      "name": "project-onboarding",
+      "displayName": "Project Onboarding",
+      "stage": "onboarding",
+      "purpose": "Generate repository/project knowledge pack to ground agents + new joiners",
+      "recommendedFor": ["Anyone new to a project"],
+      "skills": [
+        { "name": "repository-knowledge",    "source": "local" },
+        { "name": "docx-to-md",              "source": "assembly", "from": "common/docx-to-md" },
+        { "name": "common-ascii-diagram",    "source": "assembly", "from": "development/common-ascii-diagram" },
+        { "name": "common-mermaid-diagram",  "source": "assembly", "from": "development/common-mermaid-diagram" },
+        { "name": "common-plantuml-diagram", "source": "assembly", "from": "development/common-plantuml-diagram" },
+        { "name": "git-commit",              "source": "assembly", "from": "common/git-commit" }
+      ]
+    },
+    {
+      "name": "product-discovery",
+      "displayName": "Product Discovery",
+      "stage": "discovery",
+      "purpose": "Fuzzy idea/signal → problem & opportunity briefs, PRD, prioritized scope",
+      "recommendedFor": ["Product Manager", "Product Owner"],
+      "skills": [
+        { "name": "problem-opportunity-brief", "source": "assembly", "from": "business-analysis/problem-opportunity-brief" },
+        { "name": "product-discovery-radar",   "source": "assembly", "from": "business-analysis/product-discovery-radar" },
+        { "name": "requirements-grilling",      "source": "assembly", "from": "business-analysis/requirements-grilling" },
+        { "name": "prd-authoring",              "source": "assembly", "from": "business-analysis/prd-authoring" },
+        { "name": "backlog-prioritization",     "source": "assembly", "from": "project-management/backlog-prioritization" },
+        { "name": "git-commit",                 "source": "assembly", "from": "common/git-commit" }
+      ]
+    },
+    {
+      "name": "requirements-specification",
+      "displayName": "Requirements Specification",
+      "stage": "spec",
+      "purpose": "Issue/Jira → structured spec, acceptance criteria, diagrams",
+      "recommendedFor": ["Business Analyst", "Product Owner", "Technical Analyst"],
+      "skills": [
+        { "name": "docx-to-md",                       "source": "assembly", "from": "common/docx-to-md" },
+        { "name": "common-ascii-diagram",             "source": "assembly", "from": "development/common-ascii-diagram" },
+        { "name": "common-mermaid-diagram",           "source": "assembly", "from": "development/common-mermaid-diagram" },
+        { "name": "common-plantuml-diagram",          "source": "assembly", "from": "development/common-plantuml-diagram" },
+        { "name": "requirements-source-ingestion",    "source": "assembly", "from": "business-analysis/requirements-source-ingestion" },
+        { "name": "user-story-authoring",             "source": "assembly", "from": "business-analysis/user-story-authoring" },
+        { "name": "prd-authoring",                    "source": "assembly", "from": "business-analysis/prd-authoring" },
+        { "name": "requirements-grilling",            "source": "assembly", "from": "business-analysis/requirements-grilling" },
+        { "name": "gap-impact-analysis",              "source": "assembly", "from": "business-analysis/gap-impact-analysis" },
+        { "name": "requirements-traceability-matrix", "source": "assembly", "from": "business-analysis/requirements-traceability-matrix" },
+        { "name": "process-flow-modelling",           "source": "assembly", "from": "business-analysis/process-flow-modelling" },
+        { "name": "issue-decomposition",              "source": "assembly", "from": "business-analysis/issue-decomposition" },
+        { "name": "confluence-to-jira-stories",       "source": "assembly", "from": "business-analysis/confluence-to-jira-stories" },
+        { "name": "git-commit",                       "source": "assembly", "from": "common/git-commit" }
+      ]
+    },
+    {
+      "name": "technical-analysis",
+      "displayName": "Technical Analysis",
+      "stage": "spec",
+      "purpose": "Code-grounded feasibility, data mapping, and frontend tickets for technical analysts",
+      "recommendedFor": ["Technical Analyst"],
+      "skills": [
+        { "name": "development-assessment",  "source": "assembly", "from": "business-analysis/development-assessment" },
+        { "name": "requirements-grilling",   "source": "assembly", "from": "business-analysis/requirements-grilling" },
+        { "name": "data-dictionary-mapping", "source": "assembly", "from": "business-analysis/data-dictionary-mapping" },
+        { "name": "frontend-ticket-writing", "source": "assembly", "from": "business-analysis/frontend-ticket-writing" },
+        { "name": "common-plantuml-diagram", "source": "assembly", "from": "development/common-plantuml-diagram" },
+        { "name": "git-commit",              "source": "assembly", "from": "common/git-commit" }
+      ]
+    },
+    {
+      "name": "technical-planning",
+      "displayName": "Technical Planning",
+      "stage": "planning",
+      "purpose": "Spec → architecture, task breakdown, diagrams",
+      "recommendedFor": ["Tech Lead", "Architect"],
+      "skills": [
+        { "name": "common-ascii-diagram",                  "source": "assembly", "from": "development/common-ascii-diagram" },
+        { "name": "common-mermaid-diagram",                "source": "assembly", "from": "development/common-mermaid-diagram" },
+        { "name": "common-plantuml-diagram",               "source": "assembly", "from": "development/common-plantuml-diagram" },
+        { "name": "dotnet-architecture",                   "source": "assembly", "from": "development/dotnet-architecture" },
+        { "name": "dotnet-architecture-infrastructure-db", "source": "assembly", "from": "development/dotnet-architecture-infrastructure-db" },
+        { "name": "dotnet-architecture-presentation-rest", "source": "assembly", "from": "development/dotnet-architecture-presentation-rest" },
+        { "name": "common-hexagonal-architecture",         "source": "assembly", "from": "development/common-hexagonal-architecture" },
+        { "name": "git-commit",                            "source": "assembly", "from": "common/git-commit" }
+      ]
+    },
+    {
+      "name": "implementation-dotnet",
+      "displayName": "Implementation — .NET",
+      "stage": "implementation",
+      "purpose": "Implement backend features on a feature branch",
+      "recommendedFor": [".NET Developer"],
+      "skills": [
+        { "name": "dotnet-architecture",                   "source": "assembly", "from": "development/dotnet-architecture" },
+        { "name": "dotnet-architecture-infrastructure-db", "source": "assembly", "from": "development/dotnet-architecture-infrastructure-db" },
+        { "name": "dotnet-architecture-presentation-rest", "source": "assembly", "from": "development/dotnet-architecture-presentation-rest" },
+        { "name": "common-hexagonal-architecture",         "source": "assembly", "from": "development/common-hexagonal-architecture" },
+        { "name": "dotnet-scaffold",                       "source": "assembly", "from": "development/dotnet-scaffold" },
+        { "name": "dotnet-feature",                        "source": "assembly", "from": "development/dotnet-feature" },
+        { "name": "dotnet-module-registration",            "source": "assembly", "from": "development/dotnet-module-registration" },
+        { "name": "dotnet-mediatr",                        "source": "assembly", "from": "development/dotnet-mediatr" },
+        { "name": "dotnet-ef-core",                        "source": "assembly", "from": "development/dotnet-ef-core" },
+        { "name": "dotnet-fluent-validation",              "source": "assembly", "from": "development/dotnet-fluent-validation" },
+        { "name": "dotnet-error-handling",                 "source": "assembly", "from": "development/dotnet-error-handling" },
+        { "name": "dotnet-configuration",                  "source": "assembly", "from": "development/dotnet-configuration" },
+        { "name": "dotnet-api-versioning",                 "source": "assembly", "from": "development/dotnet-api-versioning" },
+        { "name": "dotnet-infrastructure-http",            "source": "assembly", "from": "development/dotnet-infrastructure-http" },
+        { "name": "dotnet-code-style",                     "source": "assembly", "from": "development/dotnet-code-style" },
+        { "name": "common-clean-code",                     "source": "assembly", "from": "development/common-clean-code" },
+        { "name": "git-commit",                            "source": "assembly", "from": "common/git-commit" }
+      ]
+    },
+    {
+      "name": "implementation-react",
+      "displayName": "Implementation — React",
+      "stage": "implementation",
+      "purpose": "Implement React + TypeScript frontend features on a feature branch",
+      "recommendedFor": ["React Developer"],
+      "skills": [
+        { "name": "react-architecture",  "source": "assembly", "from": "development/react-architecture" },
+        { "name": "react-code-style",    "source": "assembly", "from": "development/react-code-style" },
+        { "name": "react-typescript",    "source": "assembly", "from": "development/react-typescript" },
+        { "name": "react-configuration", "source": "assembly", "from": "development/react-configuration" },
+        { "name": "react-api-client",    "source": "assembly", "from": "development/react-api-client" },
+        { "name": "react-data-fetching", "source": "assembly", "from": "development/react-data-fetching" },
+        { "name": "react-unit-testing",  "source": "assembly", "from": "development/react-unit-testing" },
+        { "name": "react-scaffold",      "source": "assembly", "from": "development/react-scaffold" },
+        { "name": "react-feature",       "source": "assembly", "from": "development/react-feature" },
+        { "name": "git-commit",          "source": "assembly", "from": "common/git-commit" }
+      ]
+    },
+    {
+      "name": "code-review",
+      "displayName": "Code Review",
+      "stage": "review",
+      "purpose": "Review diffs — style, clean code, security",
+      "recommendedFor": ["Reviewer", "Senior Engineer"],
+      "skills": [
+        { "name": "dotnet-code-style", "source": "assembly", "from": "development/dotnet-code-style" },
+        { "name": "common-clean-code", "source": "assembly", "from": "development/common-clean-code" },
+        { "name": "security-review",   "source": "assembly", "from": "development/security-review" },
+        { "name": "git-commit",        "source": "assembly", "from": "common/git-commit" }
+      ]
+    },
+    {
+      "name": "qa-testing",
+      "displayName": "QA & Testing",
+      "stage": "testing",
+      "purpose": "Test generation, bug triage, test planning",
+      "recommendedFor": ["QA Automation Engineer"],
+      "skills": [
+        { "name": "git-commit", "source": "assembly", "from": "common/git-commit" }
+      ]
+    },
+    {
+      "name": "release-deployment",
+      "displayName": "Release & Deployment",
+      "stage": "deploy",
+      "purpose": "CI/CD, rollout planning, infra diagnostics",
+      "recommendedFor": ["DevOps Engineer"],
+      "skills": [
+        { "name": "azure-devops-cli",               "source": "assembly", "from": "devops/azure-devops-cli" },
+        { "name": "devops-rollout-plan",             "source": "assembly", "from": "devops/devops-rollout-plan" },
+        { "name": "azure-resource-health-diagnose",  "source": "assembly", "from": "devops/azure-resource-health-diagnose" },
+        { "name": "azure-resource-visualizer",       "source": "assembly", "from": "devops/azure-resource-visualizer" },
+        { "name": "git-commit",                      "source": "assembly", "from": "common/git-commit" }
+      ]
+    }
+  ]
+}

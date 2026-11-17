@@ -1,0 +1,27 @@
+@startuml sequence
+
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 10
+skinparam sequenceParticipant underline
+
+title User Authentication Flow
+
+actor Client
+participant "API Gateway" as API
+participant "Auth Service" as Auth
+database "User Store" as DB
+
+Client -> API : POST /auth/login\n{ email, password }
+API -> Auth : ValidateCredentials(email, password)
+Auth -> DB : FindUser(email)
+DB --> Auth : User record
+Auth -> Auth : VerifyPasswordHash
+alt credentials valid
+    Auth --> API : JWT token
+    API --> Client : 200 OK { token }
+else invalid credentials
+    Auth --> API : Unauthorized
+    API --> Client : 401 Unauthorized
+end
+
+@enduml
