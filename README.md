@@ -56,10 +56,8 @@ For a detailed description of the skills baseline, plugin bundles, extensibility
 ### 1 — Add the marketplace (once per machine)
 
 ```shell
-/plugin marketplace add <github-owner>/awesome-agents
+/plugin marketplace add robert-miani/awesome-agents
 ```
-
-Replace `<github-owner>` with the GitHub user or organization that hosts your copy of this repository.
 
 ### 2 — Install the plugin for your role
 

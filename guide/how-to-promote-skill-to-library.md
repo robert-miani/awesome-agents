@@ -26,7 +26,7 @@ Before submitting, verify the skill meets these criteria:
 ### 1. Fork and clone this repository
 
 ```bash
-git clone https://github.com/<github-owner>/awesome-agents.git
+git clone https://github.com/robert-miani/awesome-agents.git
 cd awesome-agents
 ```
 

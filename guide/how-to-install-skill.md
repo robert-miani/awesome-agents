@@ -10,7 +10,7 @@ This guide covers installing skills and plugins in the three major AI coding age
 
 ```bash
 # Register the marketplace (one-time setup)
-copilot skill marketplace add <github-owner>/awesome-agents
+copilot skill marketplace add robert-miani/awesome-agents
 
 # Install a skill
 copilot skill install <skill-name>@awesome-agents
@@ -20,7 +20,7 @@ copilot skill install <skill-name>@awesome-agents
 
 ```bash
 # Register the marketplace (one-time setup)
-copilot plugin marketplace add <github-owner>/awesome-agents
+copilot plugin marketplace add robert-miani/awesome-agents
 
 # Install a plugin
 copilot plugin install <plugin-name>@awesome-agents
@@ -99,7 +99,7 @@ Codex CLI reads instructions from `.codex/` in your project directory.
 
 1. Download the skill:
    ```bash
-   curl -L https://raw.githubusercontent.com/<github-owner>/awesome-agents/main/skills/<discipline>/<skill-name>/skill.md \
+   curl -L https://raw.githubusercontent.com/robert-miani/awesome-agents/main/skills/<discipline>/<skill-name>/skill.md \
      -o .codex/skills/<skill-name>.md
    ```
 

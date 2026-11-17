@@ -93,10 +93,10 @@ For background on how marketplaces work, see [Discover and install plugins](http
 From within a Claude Code session:
 
 ```shell
-/plugin marketplace add <github-owner>/awesome-agents
+/plugin marketplace add robert-miani/awesome-agents
 ```
 
-Replace `<github-owner>` with the GitHub user or organization that hosts your copy of this repository. This registers the `awesome-agents` catalog. No plugins are installed yet.
+This registers the `awesome-agents` catalog. No plugins are installed yet.
 
 ### Step 2 — Install a plugin for your role
 
