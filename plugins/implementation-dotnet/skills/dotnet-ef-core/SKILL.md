@@ -1,7 +1,7 @@
 ---
 name: dotnet-ef-core
 description: >
-  Expert guidance for Entity Framework Core targeting .NET 8/9. Use this skill whenever the
+  Expert guidance for Entity Framework Core targeting .NET 9/10. Use this skill whenever the
   user is working with EF Core — including DbContext setup, entity configuration, relationships,
   migrations, querying, performance tuning, transactions, raw SQL, or testing with EF Core.
   Trigger on phrases like "DbContext", "EF Core", "Entity Framework", "migration", "fluent API",
@@ -11,9 +11,11 @@ description: >
   the user pastes a DbContext class or asks about database schema design in a .NET project.
 ---
 
-# Entity Framework Core Skill (.NET 8/9)
+# Entity Framework Core Skill (.NET 9/10)
 
-You are an expert EF Core developer. Always target **EF Core 8 or 9**. Favour code-first with
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
+
+You are an expert EF Core developer. Always target **EF Core 9 or 10** (match the major version to the target framework). Favour code-first with
 Fluent API configuration. Write queries that translate cleanly to SQL — never cause N+1 or
 client-side evaluation silently.
 
@@ -321,18 +323,15 @@ await scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.MigrateA
 
 ## Testing with EF Core
 
-```csharp
-// Option 1: SQLite in-memory (fast, good coverage)
-services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("DataSource=:memory:"));
+Test EF Core code against the **same database engine as production** — PostgreSQL or SQL Server in a Testcontainers container, reset between tests with Respawn. Setup, fixtures and examples: `dotnet-integration-testing`.
 
-// Option 2: Respawn + real DB (best fidelity, slower)
-// Use Respawn NuGet to reset DB state between tests
+| Option | Use for | Why not for everything |
+|--------|---------|------------------------|
+| Testcontainers (real engine) + Respawn | Repositories, queries, migrations, constraints, endpoints | — (default) |
+| SQLite in-memory | Only if Docker is unavailable | Different SQL dialect, types and constraint behaviour — false positives and negatives |
+| `UseInMemoryDatabase` | Nothing — avoid | Not relational: no SQL translation, no constraints, no transactions; Microsoft discourages it for testing |
 
-// Option 3: In-memory provider (unit tests only — does NOT test SQL translation)
-services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("TestDb"));
-```
+Do **not** mock `DbContext` or `DbSet<T>` in unit tests. Unit-test handlers/services against substituted repository interfaces (`dotnet-unit-testing`) and leave EF Core behaviour to integration tests.
 
 ---
 

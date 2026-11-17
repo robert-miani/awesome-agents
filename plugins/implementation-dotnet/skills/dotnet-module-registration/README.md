@@ -2,7 +2,7 @@
 
 ## Description
 
-Expert guidance for wiring up .NET 8/9 layered architecture using Module extension methods for dependency injection. Each layer owns a `Module.cs` with a single `IServiceCollection` extension method. `Program.cs` only calls those extensions.
+Expert guidance for wiring up .NET 9/10 layered architecture using Module extension methods for dependency injection. Each layer owns a `Module.cs` with a single `IServiceCollection` extension method. `Program.cs` only calls those extensions.
 
 ## When to Use
 
@@ -57,5 +57,5 @@ builder.Services
 
 ## Requirements
 
-- .NET 8 or 9
+- .NET 9 or 10 (existing projects on older targets: see `dotnet-architecture` → Target Framework & Existing Projects)
 - Layered solution following clean architecture

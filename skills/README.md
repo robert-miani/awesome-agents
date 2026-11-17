@@ -30,6 +30,8 @@ Skills are self-contained agent instruction sets — a folder with a prompt file
 | [dotnet-configuration](development/dotnet-configuration/README.md) | Options pattern, appsettings, user secrets, and environment variables | .NET configuration |
 | [dotnet-api-versioning](development/dotnet-api-versioning/README.md) | API versioning with Asp.Versioning.Mvc: URL versioning, per-version controllers | Multi-version .NET APIs |
 | [dotnet-infrastructure-http](development/dotnet-infrastructure-http/README.md) | Typed HttpClients for external service integration in Infrastructure.Http | .NET external API integration |
+| [dotnet-unit-testing](development/dotnet-unit-testing/README.md) | Unit tests for entities, MediatR handlers or application services, and validators; xUnit v3 + NSubstitute + Shouldly by default, existing stacks respected | .NET unit tests |
+| [dotnet-integration-testing](development/dotnet-integration-testing/README.md) | API integration tests with WebApplicationFactory, Testcontainers (PostgreSQL/SQL Server) and Respawn | .NET endpoint and database tests |
 | [dotnet-code-style](development/dotnet-code-style/README.md) | C# code style and formatting conventions | .NET implementation and code review |
 | [react-architecture](development/react-architecture/README.md) | Feature-based React layout (`features/`, `shared/`, `app/`), dependency rules, TanStack Router/Query boundaries | New React apps, structure reviews |
 | [react-code-style](development/react-code-style/README.md) | React/TSX naming, imports, components, hooks, forms, Tailwind/shadcn conventions | React implementation and code review |

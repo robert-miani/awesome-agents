@@ -10,6 +10,8 @@ description: >
 
 # Presentation REST Skill (.NET 9/10)
 
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
+
 This skill covers everything in the `Presentation.Api` layer: controllers, Module registration (DI + middleware), OpenAPI/Scalar configuration, API versioning, error handling, and routing conventions.
 
 **PREREQUISITES:** Load these skills first:
@@ -299,6 +301,8 @@ The `UseApi()` method configures middleware in this exact order:
 
 ## Controller Template
 
+The template below is the **MediatR style**. In solutions without MediatR (see `dotnet-architecture` → *Dispatch Style*), inject the `I<Aggregate>Service` interface instead of `ISender` and call it directly — attributes, routing, auth and `ProducesResponseType` stay the same.
+
 ```csharp
 namespace ProjectName.Presentation.Api.Controllers.Feature.v1;
 
@@ -363,10 +367,10 @@ public sealed record CreateFeatureRequest(string Name);
 | Always `[ApiVersion("1.0")]` | Explicit version on every controller |
 | Route template | `api/v{version:apiVersion}/[controller]` |
 | Auth by default | `[Authorize]` on class, `[AllowAnonymous]` on exceptions (health, login) |
-| Inject `ISender` | Not `IMediator` — use the narrower interface |
-| Use `CancellationToken` | Pass `ct` to every `Send()` call |
+| Inject `ISender` (MediatR style) | Not `IMediator` — use the narrower interface. Application-service style: inject the `I<Aggregate>Service` interface instead |
+| Use `CancellationToken` | Pass `ct` to every `Send()` / service call |
 | `ProducesResponseType` | Annotate every action with expected response types |
-| No business logic | Controllers only dispatch to MediatR and return results |
+| No business logic | Controllers only dispatch (to MediatR or the application service) and return results |
 | Get userId from claims | `User.GetUserId()` via extension method |
 | Request DTOs | Simple records, declared near the controller |
 
@@ -411,10 +415,10 @@ When creating or reviewing presentation layer code:
 
 - [ ] Controller is `sealed` with `[ApiController]`, `[ApiVersion]`, and standard route template
 - [ ] `[Authorize]` on class (or `[AllowAnonymous]` for public endpoints like health/login)
-- [ ] `ISender` injected (not `IMediator`)
+- [ ] `ISender` injected (not `IMediator`) — or the application-service interface when the solution has no MediatR
 - [ ] `CancellationToken` passed to all async operations
 - [ ] `ProducesResponseType` on every action
-- [ ] No business logic in controllers — dispatch to MediatR only
+- [ ] No business logic in controllers — dispatch to MediatR or the application service only
 - [ ] Request DTOs are simple records
 - [ ] OpenAPI + Scalar configured in `Module.cs`, not in `Program.cs`
 - [ ] `UseApi()` middleware order is correct (ProblemDetails → OpenApi → Scalar → HTTPS → Auth → Controllers)

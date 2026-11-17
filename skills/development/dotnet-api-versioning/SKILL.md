@@ -11,6 +11,8 @@ description: >
 
 # API Versioning Skill (.NET 9/10)
 
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
+
 This skill covers API versioning using `Asp.Versioning.Mvc` with URL segment versioning (`/api/v1/...`).
 
 **PREREQUISITES:** Load these skills first:

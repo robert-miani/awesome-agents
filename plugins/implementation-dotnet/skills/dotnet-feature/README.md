@@ -23,7 +23,7 @@ Activate this skill when adding features. Follow the implementation order:
 5. **Infrastructure.Http** — (if needed) external service client
 6. **Presentation.Api** — controller action
 
-**Prerequisites:** Load `dotnet-architecture`, `dotnet-code-style`, `dotnet-mediatr`, `dotnet-fluent-validation`, and `dotnet-ef-core` first.
+**Prerequisites:** Load `dotnet-architecture`, `dotnet-code-style`, `dotnet-fluent-validation`, and `dotnet-ef-core` first — plus `dotnet-mediatr` only if the solution uses MediatR. The skill detects the solution's conventions (target framework, MediatR vs application services, validation, data access, tests) before writing code.
 
 ## Example
 
@@ -54,5 +54,5 @@ public static class CreateOrder
 - Existing clean architecture solution
 - `dotnet-architecture` skill (prerequisite)
 - `dotnet-code-style` skill (prerequisite)
-- `dotnet-mediatr` skill (prerequisite)
+- `dotnet-mediatr` skill (only for solutions that use MediatR)
 - `dotnet-fluent-validation` skill (prerequisite)

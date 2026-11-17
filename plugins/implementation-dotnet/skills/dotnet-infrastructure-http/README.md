@@ -2,7 +2,7 @@
 
 ## Description
 
-Expert guidance for building typed HTTP clients in .NET 8/9 for external service integration. Interface lives in Application.Contracts, implementation in Infrastructure.Http. Covers typed clients, `IHttpClientFactory`, options pattern for base URLs, and logging handlers.
+Expert guidance for building typed HTTP clients in .NET 9/10 for external service integration. Interface lives in Application.Contracts, implementation in Infrastructure.Http. Covers typed clients, `IHttpClientFactory`, options pattern for base URLs, and logging handlers.
 
 ## When to Use
 
@@ -59,6 +59,6 @@ services.AddHttpClient<IPaymentGateway, PaymentGatewayClient>((sp, client) =>
 
 ## Requirements
 
-- .NET 8 or 9
+- .NET 9 or 10 (existing projects on older targets: see `dotnet-architecture` → Target Framework & Existing Projects)
 - `Microsoft.Extensions.Http` (included in ASP.NET Core)
 - Options class for each external service's configuration

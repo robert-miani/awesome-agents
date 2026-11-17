@@ -8,6 +8,8 @@ description: >
 
 # Code Style Skill (.NET / C#)
 
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
+
 Apply these code style conventions to all C# code you generate or review. These rules ensure consistency across the codebase.
 
 ---
@@ -49,8 +51,8 @@ Apply these code style conventions to all C# code you generate or review. These 
 ## Code Example
 
 ```csharp
-// <copyright file="CreateOrderCommandHandler.cs" company="SwipeSpec Inc.">
-// Copyright (C) SwipeSpec Inc. - All Rights Reserved.
+// <copyright file="CreateOrderCommandHandler.cs" company="YourCompany">
+// Copyright (C) YourCompany. All rights reserved.
 // </copyright>
 
 namespace ProjectName.Application.Orders;

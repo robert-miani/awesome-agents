@@ -2,7 +2,7 @@
 
 ## Description
 
-Expert guidance for FluentValidation 11+ in .NET 8/9. Validators are `internal sealed`, co-located with their command/query inside a static outer class, and registered with `includeInternalTypes: true` from the application layer.
+Expert guidance for FluentValidation 11+ in .NET 9/10. Validators are `internal sealed`, co-located with their command/query inside a static outer class, and registered with `includeInternalTypes: true` from the application layer.
 
 ## When to Use
 
@@ -47,6 +47,6 @@ public static class CreateOrder
 
 ## Requirements
 
-- .NET 8 or 9
+- .NET 9 or 10 (existing projects on older targets: see `dotnet-architecture` → Target Framework & Existing Projects)
 - `FluentValidation.DependencyInjectionExtensions` NuGet package
 - MediatR with `ValidationBehaviour` pipeline

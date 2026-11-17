@@ -2,7 +2,8 @@
 name: dotnet-feature
 description: >
   Add new features to existing .NET 9/10 clean architecture solutions. Use this skill when the user
-  wants to add a new endpoint, command, query, entity, or any feature across layers. Trigger on
+  wants to add a new endpoint, command, query, entity, or any feature across layers — with or
+  without MediatR, matching the solution's existing conventions. Trigger on
   phrases like "add feature", "create endpoint", "new command", "new query", "add entity",
   "implement", "create handler", "add controller action", or any request to extend an existing
   .NET solution with new functionality.
@@ -10,14 +11,34 @@ description: >
 
 # Feature Implementation Skill (.NET 9/10)
 
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
+
 You implement new features in .NET 9/10 clean architecture solutions. Each feature touches multiple layers and follows the established patterns.
 
 **PREREQUISITES:** Load these skills before implementing features:
-- `dotnet-architecture` — for layer structure and where code belongs
+- `dotnet-architecture` — for layer structure, where code belongs, dispatch style, and target-framework rules
 - `dotnet-code-style` — for code conventions
-- `dotnet-mediatr` — for command/query patterns
-- `dotnet-fluent-validation` — for validators
+- `dotnet-mediatr` — **only if the solution uses MediatR** (see Step 0)
+- `dotnet-fluent-validation` — for validators (if the solution uses FluentValidation)
 - `dotnet-ef-core` — if feature involves database entities
+- `dotnet-unit-testing` / `dotnet-integration-testing` — for the tests that ship with the feature
+
+---
+
+## Step 0 — Detect the Solution's Conventions (MANDATORY on existing code)
+
+Read the solution before writing anything. Match what exists — a feature must look like its neighbours.
+
+| Check | How | Consequence |
+|-------|-----|-------------|
+| Target framework | `<TargetFramework>` in `.csproj` / `Directory.Build.props`, `global.json` | Only use APIs/C# features for that version (`dotnet-architecture` → *Target Framework & Existing Projects*) |
+| Dispatch style | `MediatR` package reference, `IRequestHandler<`, `ISender` usages | **Found** → MediatR templates below. **Not found** → application-service templates in `references/application-services.md`. Never add MediatR. |
+| Validation | `FluentValidation` reference, `AbstractValidator<` | Not found → follow the project's existing validation approach (DataAnnotations, manual checks) |
+| Endpoints | `ControllerBase` subclasses vs `MapGet`/`MapPost` minimal APIs | Add the endpoint the same way the neighbouring features do |
+| Data access | Repository + UoW, or `DbContext` injected directly into handlers/services | Follow the existing pattern; don't introduce repositories into a solution that uses `DbContext` directly (or vice versa) |
+| Tests | `tests/` projects, xUnit/NUnit/MSTest, mocking library | Add tests in the existing projects with the existing libraries |
+
+If two styles coexist (e.g. older features use services, newer use MediatR), follow the style of the area you're changing and mention the inconsistency to the user.
 
 ---
 
@@ -27,11 +48,14 @@ When adding a new feature, follow this order:
 
 1. **Domain** — add entity / value object / enum if needed
 2. **Application.Contracts** — add repository or service interface if needed; add DTOs
-3. **Application** — add `static class FeatureName` with `Command`/`Query`, `Validator`, `Handler`
+3. **Application** — MediatR style: `static class FeatureName` with `Command`/`Query`, `Validator`, `Handler`. Application-service style: request record + validator + method on `I<Aggregate>Service` / `<Aggregate>Service` (see `references/application-services.md`)
 4. **Infrastructure.Db** — implement any new interfaces; add EF entity config and migration if new entity
 5. **Infrastructure.Http** — (if applicable) implement external service client
 6. **Presentation.Api** — add action to relevant controller or create a new controller
 7. **Presentation.Consumers** — (if applicable) add consumer if the feature is triggered by a message
+8. **Tests** — unit tests for domain logic, handler/service and validator (`dotnet-unit-testing`); an integration test per new endpoint (`dotnet-integration-testing`)
+
+The code templates below show the **MediatR style**.
 
 ---
 
@@ -518,6 +542,7 @@ When implementing a feature, ask:
 3. **What validation?** — Required fields, business rules?
 4. **What response?** — ID, DTO, status code?
 5. **Requires external service?** — HTTP client needed?
+6. **Which dispatch style does this solution use?** — MediatR or application services (Step 0)?
 
 ---
 

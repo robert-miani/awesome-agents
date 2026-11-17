@@ -10,6 +10,8 @@ description: >
 
 # Error Handling Skill (.NET 9/10)
 
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
+
 This skill covers structured error handling using ProblemDetails (RFC 7807) with custom domain exceptions.
 
 **PREREQUISITES:** Load these skills first:

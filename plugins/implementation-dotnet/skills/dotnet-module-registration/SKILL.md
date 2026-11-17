@@ -1,7 +1,7 @@
 ---
 name: dotnet-module-registration
 description: >
-  Expert guidance for wiring up .NET 8/9 layered architecture using Module extension methods
+  Expert guidance for wiring up .NET 9/10 layered architecture using Module extension methods
   for dependency injection. Use this skill whenever the user is setting up or refactoring DI
   registration across layers — Application, Infrastructure, Domain, or API/Presentation. Trigger
   on phrases like "Module", "AddApplication", "AddInfrastructure", "AddDomain", "layer registration",
@@ -9,7 +9,9 @@ description: >
   or any question about how to organise and call registrations across project layers.
 ---
 
-# Module Registration Skill (.NET 8/9)
+# Module Registration Skill (.NET 9/10)
+
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
 
 Each layer owns its own `Module.cs` with a single `IServiceCollection` extension method. `Program.cs` lives in `ProjectName.Startup` and only calls those extensions — it never reaches into another layer's internals. `IConfiguration` is passed as a parameter to modules that need it; layers never access it directly.
 
@@ -65,7 +67,7 @@ public static class Module
 
 ## Application Layer
 
-No `IConfiguration` needed — registers MediatR, validators, and pipeline behaviours only:
+No `IConfiguration` needed. **MediatR style** registers MediatR, validators, and pipeline behaviours (below). **Application-service style** registers validators plus each service explicitly — `services.AddScoped<IOrderService, OrderService>();` — and no pipeline behaviours:
 
 ```csharp
 // Application/Module.cs

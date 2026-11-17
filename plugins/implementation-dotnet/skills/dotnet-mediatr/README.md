@@ -2,7 +2,7 @@
 
 ## Description
 
-Expert guidance for MediatR 12+ in .NET 8/9. Uses CQRS — commands mutate state, queries return data. Co-locates command/query, validator, and handler in one static class. Never uses notifications (`INotification` / `INotificationHandler`).
+Expert guidance for MediatR 12+ in .NET 9/10. Uses CQRS — commands mutate state, queries return data. Co-locates command/query, validator, and handler in one static class. Never uses notifications (`INotification` / `INotificationHandler`).
 
 ## When to Use
 
@@ -62,6 +62,6 @@ public static class CreateOrder
 
 ## Requirements
 
-- .NET 8 or 9
+- .NET 9 or 10 (existing projects on older targets: see `dotnet-architecture` → Target Framework & Existing Projects)
 - `MediatR` NuGet package
 - `FluentValidation.DependencyInjectionExtensions` (for validation pipeline)

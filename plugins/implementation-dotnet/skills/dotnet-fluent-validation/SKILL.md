@@ -1,14 +1,16 @@
 ---
 name: dotnet-fluent-validation
 description: >
-  Expert guidance for FluentValidation in .NET 8/9. Use this skill whenever the user is working
+  Expert guidance for FluentValidation in .NET 9/10. Use this skill whenever the user is working
   with FluentValidation — including validators, rules, custom validators, async validation, or
-  wiring FluentValidation into ASP.NET Core or MediatR. Trigger on phrases like "FluentValidation",
+  wiring FluentValidation into ASP.NET Core, MediatR, or plain application services. Trigger on phrases like "FluentValidation",
   "AbstractValidator", "RuleFor", "RuleForEach", "ChildRules", "MustAsync", "validator",
   "validation rules", or any code that references the FluentValidation package.
 ---
 
-# FluentValidation Skill (.NET 8/9)
+# FluentValidation Skill (.NET 9/10)
+
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
 
 You are an expert in FluentValidation 11+. Validators are `internal sealed`, co-located with their command/query inside a static outer class. Always register with `includeInternalTypes: true` from the application layer via a `Module` extension method.
 
@@ -149,19 +151,40 @@ RuleFor(x => x.Price).SetValidator(new MoneyValidator());
 
 ---
 
-## Validating Manually (outside pipeline)
+## Validating in Application Services (no MediatR)
+
+In solutions without MediatR there is no `ValidationBehaviour`, so each service method validates its own input first. The validator sits next to its request record (`internal sealed class CreateOrderRequestValidator : AbstractValidator<CreateOrderRequest>`) and is injected as `IValidator<T>`. Throw the exception type the solution's global error handler already maps to 400 — the `ValidationException` from `dotnet-error-handling` if that skill's pattern is in place:
 
 ```csharp
-internal sealed class OrderService(IValidator<CreateOrder.Command> validator)
+namespace ProjectName.Application.Orders;
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
+using ValidationException = ProjectName.Blocks.Exceptions.ValidationException;
+
+internal sealed class OrderService : IOrderService
 {
-    public async Task DoSomethingAsync(CreateOrder.Command cmd, CancellationToken ct)
+    private readonly IValidator<CreateOrderRequest> _createValidator;
+
+    public OrderService(IValidator<CreateOrderRequest> createValidator)
     {
-        var result = await validator.ValidateAsync(cmd, ct);
+        _createValidator = createValidator;
+    }
+
+    public async Task<Guid> CreateAsync(CreateOrderRequest request, CancellationToken ct)
+    {
+        ValidationResult result = await _createValidator.ValidateAsync(request, ct);
         if (!result.IsValid)
         {
-            var errors = result.ToDictionary(); // key: property, value: string[]
-            // handle errors
+            throw new ValidationException(result.ToDictionary());
         }
+
+        // ... use case logic
     }
 }
 ```
+
+If the solution has no custom `ValidationException`, use `await _createValidator.ValidateAndThrowAsync(request, ct);` and make sure the error handler maps `FluentValidation.ValidationException` to 400.

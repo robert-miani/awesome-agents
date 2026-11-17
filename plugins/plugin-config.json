@@ -108,6 +108,8 @@
         { "name": "dotnet-configuration",                  "source": "assembly", "from": "development/dotnet-configuration" },
         { "name": "dotnet-api-versioning",                 "source": "assembly", "from": "development/dotnet-api-versioning" },
         { "name": "dotnet-infrastructure-http",            "source": "assembly", "from": "development/dotnet-infrastructure-http" },
+        { "name": "dotnet-unit-testing",                   "source": "assembly", "from": "development/dotnet-unit-testing" },
+        { "name": "dotnet-integration-testing",            "source": "assembly", "from": "development/dotnet-integration-testing" },
         { "name": "dotnet-code-style",                     "source": "assembly", "from": "development/dotnet-code-style" },
         { "name": "common-clean-code",                     "source": "assembly", "from": "development/common-clean-code" },
         { "name": "git-commit",                            "source": "assembly", "from": "common/git-commit" }

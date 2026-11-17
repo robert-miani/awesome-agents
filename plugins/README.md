@@ -69,6 +69,8 @@ Columns: `onboard` = project-onboarding · `disc` = product-discovery · `req-sp
 | `development/dotnet-configuration` | | | | | | X | | | | |
 | `development/dotnet-api-versioning` | | | | | | X | | | | |
 | `development/dotnet-infrastructure-http` | | | | | | X | | | | |
+| `development/dotnet-unit-testing` | | | | | | X | | | | |
+| `development/dotnet-integration-testing` | | | | | | X | | | | |
 | `development/dotnet-code-style` | | | | | | X | | X | | |
 | `development/common-clean-code` | | | | | | X | | X | | |
 | `development/react-architecture` | | | | | | | X | | | |

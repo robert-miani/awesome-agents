@@ -3,7 +3,7 @@
   "name": "implementation-dotnet",
   "displayName": "Implementation — .NET",
   "version": "0.1.0",
-  "description": "Scaffolds and implements .NET backend features following clean architecture, MediatR, and EF Core conventions on a feature branch.",
+  "description": "Scaffolds, implements and tests .NET backend features following clean architecture (MediatR or application services), EF Core, and xUnit/Testcontainers conventions on a feature branch.",
   "author": {
     "name": "Awesome Agents"
   },

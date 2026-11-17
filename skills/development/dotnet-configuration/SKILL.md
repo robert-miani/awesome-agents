@@ -1,7 +1,7 @@
 ---
 name: dotnet-configuration
 description: >
-  Expert guidance for configuration in .NET 8/9 using the Options pattern, user secrets, and
+  Expert guidance for configuration in .NET 9/10 using the Options pattern, user secrets, and
   environment variables. Use this skill whenever the user is setting up configuration, options
   classes, appsettings.json, user secrets, or environment variable overrides in a layered .NET
   solution. Trigger on phrases like "IOptions", "appsettings", "configuration", "options pattern",
@@ -10,7 +10,9 @@ description: >
   Each layer owns its own options class and registers it in its own Module.
 ---
 
-# Configuration Skill (.NET 8/9)
+# Configuration Skill (.NET 9/10)
+
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
 
 Configuration flows into each layer via `IConfiguration`, passed as a parameter to each `Module` method. Each layer defines its own options class and registers it internally. No layer reaches into another layer's options.
 

@@ -2,7 +2,7 @@
 
 ## Description
 
-Configuration guidance for .NET 8/9 using the Options pattern, user secrets, and environment variables. Each layer owns its own options class and registers it in its own Module. Covers `IOptions<T>`, `ValidateOnStart`, configuration priority, and secrets management.
+Configuration guidance for .NET 9/10 using the Options pattern, user secrets, and environment variables. Each layer owns its own options class and registers it in its own Module. Covers `IOptions<T>`, `ValidateOnStart`, configuration priority, and secrets management.
 
 ## When to Use
 
@@ -43,5 +43,5 @@ services.AddOptions<DatabaseOptions>()
 
 ## Requirements
 
-- .NET 8 or 9
+- .NET 9 or 10 (existing projects on older targets: see `dotnet-architecture` → Target Framework & Existing Projects)
 - `Microsoft.Extensions.Options.DataAnnotations` package

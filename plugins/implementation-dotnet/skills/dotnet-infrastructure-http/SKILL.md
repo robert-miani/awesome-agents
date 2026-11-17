@@ -1,7 +1,7 @@
 ---
 name: dotnet-infrastructure-http
 description: >
-  Expert guidance for building typed HTTP clients in .NET 8/9 for external service integration.
+  Expert guidance for building typed HTTP clients in .NET 9/10 for external service integration.
   Use this skill whenever the user is creating or working with an Infrastructure.Http project,
   typed HTTP clients, HttpClient, IHttpClientFactory, DelegatingHandler, or external HTTP service
   wrappers. Trigger on phrases like "typed client", "HttpClient", "AddHttpClient", "external service",
@@ -10,9 +10,11 @@ description: >
   implementation in Infrastructure.Http.
 ---
 
-# Infrastructure.Http Skill (.NET 8/9)
+# Infrastructure.Http Skill (.NET 9/10)
 
-You are an expert in typed HTTP clients for .NET 8/9. The interface for every external service lives in `Application.Contracts`. The typed client implementation lives in `Infrastructure.Http`. Registration happens in `Infrastructure.Http`'s `Module`. The only `DelegatingHandler` used is a logging handler — no auth handlers.
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
+
+You are an expert in typed HTTP clients for .NET 9/10. The interface for every external service lives in `Application.Contracts`. The typed client implementation lives in `Infrastructure.Http`. Registration happens in `Infrastructure.Http`'s `Module`. The only `DelegatingHandler` used is a logging handler — no auth handlers.
 
 ---
 

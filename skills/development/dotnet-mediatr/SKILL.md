@@ -1,15 +1,19 @@
 ---
 name: dotnet-mediatr
 description: >
-  Expert guidance for MediatR in .NET 8/9. Use this skill whenever the user is working with
-  MediatR — including commands, queries, pipeline behaviours, or wiring MediatR into ASP.NET
-  Core. Trigger on phrases like "MediatR", "IRequest", "IRequestHandler", "Send", "ISender",
-  "pipeline behaviour", "CQRS", "command", "query", "handler", or any code that references
-  the MediatR package. Never suggest notifications, INotification, or INotificationHandler —
+  Expert guidance for MediatR in .NET 9/10. Use this skill only in solutions that already
+  reference MediatR — for commands, queries, handlers, pipeline behaviours, or wiring MediatR
+  into ASP.NET Core. Trigger on phrases like "MediatR", "IRequest", "IRequestHandler", "ISender",
+  "pipeline behaviour", or any code that references the MediatR package. Do not use it to add
+  MediatR to a solution that doesn't have it. Never suggest notifications, INotification, or INotificationHandler —
   these are antipatterns; direct calls or pipeline behaviours are always the better choice.
 ---
 
-# MediatR Skill (.NET 8/9)
+# MediatR Skill (.NET 9/10)
+
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
+
+> **Only for solutions that already use MediatR.** If the solution has no MediatR reference, do not add one — use the application-service style instead (see `dotnet-architecture` → *Dispatch Style*). **Licensing:** MediatR 13+ is commercially licensed and expects a license key; 12.x is the last Apache-2.0 line. Never bump an existing 12.x reference to 13+ without the team confirming its license.
 
 You are an expert in MediatR 12+. Use CQRS — commands mutate state, queries return data. Co-locate command/query and handler in one static class named after the operation with no `Command`/`Query` suffix. `Command`/`Query` records are `public sealed record`. `Validator` and `Handler` are `internal sealed class`. Never suggest `INotification` or `INotificationHandler` — they are an antipattern.
 

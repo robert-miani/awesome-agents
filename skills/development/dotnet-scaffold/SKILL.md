@@ -15,6 +15,7 @@ You scaffold new .NET 9/10 clean architecture solutions. Before scaffolding, you
 **PREREQUISITES:** Load these skills before scaffolding:
 - `dotnet-architecture` — for layer structure and project references
 - `dotnet-code-style` — for code conventions
+- `dotnet-unit-testing` and `dotnet-integration-testing` — if test projects are requested
 
 ---
 
@@ -28,8 +29,12 @@ You scaffold new .NET 9/10 clean architecture solutions. Before scaffolding, you
 4. **Include Infrastructure.Http?** — Do you need HTTP client integration for external APIs? (yes/no)
 5. **Database Provider** — Which database? (mssql / postgres)
 6. **Generate Docker Compose?** — Should I generate docker-compose.yml for local dependencies? (yes/no)
+7. **Dispatch Style** — MediatR (CQRS commands/queries + pipeline behaviours) or plain application services? (mediatr / services). Mention that MediatR 13+ is commercially licensed and needs a license key; 12.x is the last Apache-2.0 line.
+8. **Include Test Projects?** — Generate `tests/` with unit and integration test projects? (yes/no; recommend **yes**)
 
 **Wait for answers before proceeding with scaffold.**
+
+The templates in this skill are the **MediatR style**. If the user picks **services**, apply *Dispatch Style = services* below on top of them.
 
 ---
 
@@ -190,6 +195,8 @@ If you add packages before CPM is set up, NuGet will pick the latest available v
 | Microsoft.Extensions.Options.DataAnnotations | 10.0.5 |
 | Microsoft.AspNetCore.OpenApi | 10.0.5 |
 | Scalar.AspNetCore | 2.13.8 |
+
+**MediatR** is only added when Dispatch Style = mediatr. 14.x needs a license key (commercial license; free community tier for smaller organizations). If the team prefers to stay license-free, pin the last Apache-2.0 release from the 12.x line instead and note it in the README.
 
 ---
 
@@ -364,6 +371,30 @@ dotnet remove "$STARTUP_CSPROJ" package Microsoft.AspNetCore.OpenApi 2>/dev/null
 
 echo "✅ $NAME base solution scaffolded with .NET $NET_VERSION, $DB, and Central Package Management."
 ```
+
+### Dispatch Style = services (If User Selected services)
+
+Apply these changes on top of the MediatR-style templates — everything else stays the same:
+
+1. **Packages** — remove the `MediatR` line from `Directory.Packages.props` and skip `dotnet add ... package MediatR` in the script.
+2. **Application/Module.cs** — no `AddMediatR`, no `IPipelineBehavior` registration. Keep `AddValidatorsFromAssembly(assembly, includeInternalTypes: true)` and register each service explicitly: `services.AddScoped<IItemService, ItemService>();`.
+3. **Behaviours/ValidationBehaviour.cs** — do not generate it. Each service method validates its own request first.
+4. **Health** — replace `Health/GetHealth.cs` with `Health/IHealthService.cs` + `Health/HealthService.cs` returning the same `Response` record; `HealthController` injects `IHealthService` instead of `ISender`.
+5. **Example "Item" feature** — generate `Items/IItemService.cs`, `Items/ItemService.cs`, `Items/CreateItemRequest.cs` (record + validator) instead of `CreateItem.cs` / `GetItemById.cs`; `ItemsController` injects `IItemService`.
+
+Templates for every file above: `dotnet-feature` → `references/application-services.md` (rename `Order` → `Item`).
+
+### Add Test Projects (If User Selected Yes)
+
+Create, under `tests/`, following the **Project Setup** section of each skill:
+
+| Project | References | Skill |
+|---------|------------|-------|
+| `tests/$NAME.Domain.UnitTests` | Domain | `dotnet-unit-testing` |
+| `tests/$NAME.Application.UnitTests` | Application, Application.Contracts, Domain | `dotnet-unit-testing` |
+| `tests/$NAME.IntegrationTests` | Startup (for `WebApplicationFactory<Program>`) | `dotnet-integration-testing` |
+
+Add all three to the solution (`dotnet sln add tests/...`), add the test packages to `Directory.Packages.props`, add `<InternalsVisibleTo Include="$NAME.Application.UnitTests" />` to the Application project, and generate one passing test per project for the example `Item` feature (entity, create handler/service + validator, `POST`/`GET` endpoint round-trip). Then `dotnet test` must pass as part of Post-Scaffold Verification.
 
 ### Add Consumers (If User Selected Yes)
 
@@ -921,6 +952,7 @@ After scaffolding, verify the solution:
 
 ```bash
 dotnet build
+dotnet test          # if test projects were generated (integration tests need Docker running)
 dotnet run --project src/ProjectName.Startup
 ```
 
@@ -1434,5 +1466,8 @@ After completing all steps, the solution will contain:
 | **Infrastructure.Http** | `Module.cs` (if included) |
 | **Presentation.Api** | `Module.cs`, `Routing/SlugifyParameterTransformer.cs`, `Controllers/Health/v1/HealthController.cs`, `Controllers/Items/v1/ItemsController.cs` |
 | **Startup** | `Program.cs`, `appsettings.json` |
+| **tests** | `Domain.UnitTests`, `Application.UnitTests`, `IntegrationTests` with one test each for the `Item` feature (if included) |
+
+With **Dispatch Style = services**, the Application row is instead `Module.cs`, `Health/IHealthService.cs`, `Health/HealthService.cs`, `Items/IItemService.cs`, `Items/ItemService.cs`, `Items/CreateItemRequest.cs`.
 
 This demonstrates a complete vertical slice from API to database.

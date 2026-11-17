@@ -10,6 +10,8 @@ description: >
 
 # Infrastructure.Db — Repository & Unit of Work Patterns
 
+> **Existing projects on older frameworks:** check `<TargetFramework>` first and only use APIs, C# features and package versions available for it — see `dotnet-architecture` → *Target Framework & Existing Projects*.
+
 Conventions for implementing data access in the Infrastructure.Db layer. All repositories follow
 these patterns consistently. No exceptions.
 

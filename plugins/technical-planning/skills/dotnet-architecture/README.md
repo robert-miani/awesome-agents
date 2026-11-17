@@ -29,7 +29,7 @@ src/
   Presentation/
     ProjectName.Presentation.Api            → Controllers, routing
   Application/
-    ProjectName.Application                 → MediatR handlers, validators
+    ProjectName.Application                 → MediatR handlers or application services, validators
     ProjectName.Application.Contracts       → Interfaces + shared DTOs
   Domain/
     ProjectName.Domain                      → Entities, value objects, enums

@@ -2,10 +2,13 @@
 
 ## Description
 
-Implementation — .NET scaffolds and implements backend features on a feature branch
-following clean architecture conventions: MediatR commands/queries, EF Core
-repositories, FluentValidation, versioned REST APIs, and structured error handling.
-Each skill covers one architectural concern and produces runnable, test-ready code.
+Implementation — .NET scaffolds, implements and tests backend features on a feature branch
+following clean architecture conventions: MediatR commands/queries **or** plain application
+services (whichever the solution already uses), EF Core repositories, FluentValidation,
+versioned REST APIs, and structured error handling — with unit tests and integration tests
+against a real database. New solutions target .NET 9/10; existing solutions on older
+frameworks keep their own target framework and package versions.
+Each skill covers one architectural concern and produces runnable, tested code.
 
 ## When to Use
 
@@ -25,13 +28,15 @@ Each skill covers one architectural concern and produces runnable, test-ready co
 | [dotnet-scaffold](skills/dotnet-scaffold/SKILL.md) | `/implementation-dotnet:dotnet-scaffold` | Scaffold a new .NET solution or project |
 | [dotnet-feature](skills/dotnet-feature/SKILL.md) | `/implementation-dotnet:dotnet-feature` | Implement a complete feature (command + handler + endpoint) |
 | [dotnet-module-registration](skills/dotnet-module-registration/SKILL.md) | `/implementation-dotnet:dotnet-module-registration` | Register modules and services in DI container |
-| [dotnet-mediatr](skills/dotnet-mediatr/SKILL.md) | `/implementation-dotnet:dotnet-mediatr` | Add MediatR commands, queries, and handlers |
+| [dotnet-mediatr](skills/dotnet-mediatr/SKILL.md) | `/implementation-dotnet:dotnet-mediatr` | Add MediatR commands, queries, and handlers (only in solutions that use MediatR) |
 | [dotnet-ef-core](skills/dotnet-ef-core/SKILL.md) | `/implementation-dotnet:dotnet-ef-core` | Add EF Core entities, configurations, and migrations |
 | [dotnet-fluent-validation](skills/dotnet-fluent-validation/SKILL.md) | `/implementation-dotnet:dotnet-fluent-validation` | Add FluentValidation validators for commands/queries |
 | [dotnet-error-handling](skills/dotnet-error-handling/SKILL.md) | `/implementation-dotnet:dotnet-error-handling` | Add structured error handling and problem details |
 | [dotnet-configuration](skills/dotnet-configuration/SKILL.md) | `/implementation-dotnet:dotnet-configuration` | Add strongly-typed configuration with options pattern |
 | [dotnet-api-versioning](skills/dotnet-api-versioning/SKILL.md) | `/implementation-dotnet:dotnet-api-versioning` | Add API versioning to controllers and endpoints |
 | [dotnet-infrastructure-http](skills/dotnet-infrastructure-http/SKILL.md) | `/implementation-dotnet:dotnet-infrastructure-http` | Add typed HTTP clients for external service integration |
+| [dotnet-unit-testing](skills/dotnet-unit-testing/SKILL.md) | `/implementation-dotnet:dotnet-unit-testing` | Unit-test entities, handlers/services and validators (xUnit v3 + NSubstitute + Shouldly by default) |
+| [dotnet-integration-testing](skills/dotnet-integration-testing/SKILL.md) | `/implementation-dotnet:dotnet-integration-testing` | Integration-test endpoints with WebApplicationFactory, Testcontainers and Respawn |
 | [dotnet-code-style](skills/dotnet-code-style/SKILL.md) | `/implementation-dotnet:dotnet-code-style` | Enforce .NET code style and naming conventions |
 | [common-clean-code](skills/common-clean-code/SKILL.md) | `/implementation-dotnet:common-clean-code` | Apply clean code principles across the codebase |
 | [git-commit](skills/git-commit/SKILL.md) | `/implementation-dotnet:git-commit` | Commit implementation with a conventional message |
@@ -60,14 +65,18 @@ Start Claude Code from the target repository root.
 
 Implementing a `CreateOrder` feature from an architecture plan:
 
-1. `/implementation-dotnet:dotnet-mediatr` — `CreateOrderCommand` + `CreateOrderHandler`
-2. `/implementation-dotnet:dotnet-ef-core` — `Order` entity, `OrderConfiguration`, migration
-3. `/implementation-dotnet:dotnet-fluent-validation` — `CreateOrderCommandValidator`
-4. `/implementation-dotnet:dotnet-architecture-presentation-rest` — `OrdersController` endpoint
-5. `/implementation-dotnet:git-commit` — commits the feature branch
+1. `/implementation-dotnet:dotnet-feature` — detects the solution's conventions (target framework, MediatR or services, validation, data access)
+2. `/implementation-dotnet:dotnet-mediatr` — `CreateOrder` command + handler (or an `IOrderService` method in a solution without MediatR)
+3. `/implementation-dotnet:dotnet-ef-core` — `Order` entity, `OrderConfiguration`, migration
+4. `/implementation-dotnet:dotnet-fluent-validation` — `CreateOrder.Validator`
+5. `/implementation-dotnet:dotnet-architecture-presentation-rest` — `OrdersController` endpoint
+6. `/implementation-dotnet:dotnet-unit-testing` — handler/service, validator and entity tests
+7. `/implementation-dotnet:dotnet-integration-testing` — `POST`/`GET` endpoint tests against a PostgreSQL container
+8. `/implementation-dotnet:git-commit` — commits the feature branch
 
 ## Requirements
 
 - Claude Code for plugin loading
-- .NET 8+ SDK installed in the target repository environment
+- .NET 9 or 10 SDK for new solutions; existing solutions use the SDK pinned in their own `global.json`
 - Existing solution structure (or use `dotnet-scaffold` first)
+- Docker for integration tests (Testcontainers)

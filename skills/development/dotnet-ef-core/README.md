@@ -2,7 +2,7 @@
 
 ## Description
 
-Expert guidance for Entity Framework Core targeting .NET 8/9. Covers DbContext setup, Fluent API entity configuration, relationships, migrations, querying best practices, performance tuning (no N+1, no-tracking reads, pagination), transactions, and compiled queries.
+Expert guidance for Entity Framework Core targeting .NET 9/10. Covers DbContext setup, Fluent API entity configuration, relationships, migrations, querying best practices, performance tuning (no N+1, no-tracking reads, pagination), transactions, and compiled queries.
 
 ## When to Use
 
@@ -49,6 +49,6 @@ List<Order> orders = await dbContext.Set<Order>()
 
 ## Requirements
 
-- .NET 8 or 9
-- Entity Framework Core 8+
+- .NET 9 or 10 (existing projects on older targets: see `dotnet-architecture` → Target Framework & Existing Projects)
+- Entity Framework Core 9+ (match the major version to the target framework)
 - A supported database provider (Npgsql, SqlServer, Sqlite)
