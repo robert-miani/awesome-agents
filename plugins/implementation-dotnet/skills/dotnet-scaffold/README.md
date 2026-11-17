@@ -22,8 +22,12 @@ Activate this skill when creating a new .NET solution. The skill will ask pre-sc
 4. Include Infrastructure.Http? (yes/no)
 5. Database Provider (mssql / postgres)
 6. Generate Docker Compose? (yes/no)
+7. Dispatch Style (mediatr / services)
+8. Include Test Projects? (yes/no)
 
-**Prerequisites:** Load `dotnet-architecture` and `dotnet-code-style` first.
+**Prerequisites:** Load `dotnet-architecture` and `dotnet-code-style` first (plus `dotnet-unit-testing` and `dotnet-integration-testing` when test projects are requested).
+
+**Structure:** `SKILL.md` holds the questions and a step-by-step workflow; each step loads only the reference file it needs — `references/packages.md`, `scaffold-script.md`, `docker-compose.md`, `starter-files.md`, `example-feature.md` — and `templates/` holds files copied verbatim to the new solution.
 
 ## Example
 
