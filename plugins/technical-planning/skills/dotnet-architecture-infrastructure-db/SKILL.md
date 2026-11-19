@@ -53,9 +53,9 @@ discovered automatically via `ApplyConfigurationsFromAssembly`. Repositories res
 `DbSet<T>` through `dbContext.Set<T>()`.
 
 ```csharp
-namespace PromptLab.Infrastructure.Db;
-
 using Microsoft.EntityFrameworkCore;
+
+namespace PromptLab.Infrastructure.Db;
 
 public sealed class PromptLabDbContext : DbContext
 {
@@ -90,10 +90,10 @@ avoids it becoming a god object that grows with every new entity.
 Defined in `Application.Contracts/Persistence/IUnitOfWork.cs`. Exposes all repository interfaces as properties plus the `SaveChangesAsync` method.
 
 ```csharp
-namespace PromptLab.Application.Contracts.Persistence;
-
 using System.Threading;
 using System.Threading.Tasks;
+
+namespace PromptLab.Application.Contracts.Persistence;
 
 public interface IUnitOfWork
 {
@@ -119,9 +119,9 @@ Handlers then access it via `_unitOfWork.Users`, `_unitOfWork.Organizations`, et
 Defined in `Infrastructure.Db/Persistence/UnitOfWork.cs`. Wraps `DbContext`, receives repositories via DI constructor injection.
 
 ```csharp
-namespace PromptLab.Infrastructure.Db.Persistence;
-
 using PromptLab.Application.Contracts.Persistence;
+
+namespace PromptLab.Infrastructure.Db.Persistence;
 
 internal sealed class UnitOfWork : IUnitOfWork
 {
@@ -198,12 +198,12 @@ Defined in `Infrastructure.Db/Persistence/{Entity}Repository.cs`.
 - `Add` is `void` (synchronous) — EF Core tracks the entity in memory
 
 ```csharp
-namespace PromptLab.Infrastructure.Db.Persistence;
-
 using Microsoft.EntityFrameworkCore;
 using PromptLab.Application.Contracts.Persistence;
 using PromptLab.Domain.Exceptions;
 using PromptLab.Domain.Identity;
+
+namespace PromptLab.Infrastructure.Db.Persistence;
 
 internal sealed class UserRepository : IUserRepository
 {

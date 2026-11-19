@@ -92,8 +92,6 @@ public partial class Program
 One container per test run, shared through an xUnit collection fixture; the schema is created with the app's own EF migrations.
 
 ```csharp
-namespace ProjectName.IntegrationTests.Infrastructure;
-
 using System.Data.Common;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -107,6 +105,8 @@ using Respawn;
 using Respawn.Graph;
 using Testcontainers.PostgreSql;
 using Xunit;
+
+namespace ProjectName.IntegrationTests.Infrastructure;
 
 public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
@@ -166,9 +166,9 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 **SQL Server:** use `MsSqlContainer` / `MsSqlBuilder` (`Testcontainers.MsSql`, image `mcr.microsoft.com/mssql/server:2022-latest`), `DbAdapter.SqlServer`, and `Respawner.CreateAsync(connectionString, options)` / `ResetAsync(connectionString)` — no open connection needed. Drop `SchemasToInclude` or set it to `["dbo"]`.
 
 ```csharp
-namespace ProjectName.IntegrationTests.Infrastructure;
-
 using Xunit;
+
+namespace ProjectName.IntegrationTests.Infrastructure;
 
 [CollectionDefinition(Name)]
 public sealed class ApiCollection : ICollectionFixture<ApiFactory>
@@ -178,11 +178,11 @@ public sealed class ApiCollection : ICollectionFixture<ApiFactory>
 ```
 
 ```csharp
-namespace ProjectName.IntegrationTests.Infrastructure;
-
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+
+namespace ProjectName.IntegrationTests.Infrastructure;
 
 public abstract class ApiTestBase : IAsyncLifetime
 {
@@ -216,8 +216,6 @@ public abstract class ApiTestBase : IAsyncLifetime
 Put `[Collection(ApiCollection.Name)]` on **every** test class (don't rely on inheriting it from the base class). Tests in one collection run sequentially, which is what makes the shared database safe.
 
 ```csharp
-namespace ProjectName.IntegrationTests.Orders;
-
 using System;
 using System.Net;
 using System.Net.Http;
@@ -228,6 +226,8 @@ using ProjectName.Application.Contracts.Dtos;
 using ProjectName.IntegrationTests.Infrastructure;
 using Shouldly;
 using Xunit;
+
+namespace ProjectName.IntegrationTests.Orders;
 
 [Collection(ApiCollection.Name)]
 public sealed class OrdersEndpointsTests : ApiTestBase
@@ -312,8 +312,6 @@ using (IServiceScope scope = Factory.Services.CreateScope())
 Replace the real scheme with a test scheme that always authenticates a known user:
 
 ```csharp
-namespace ProjectName.IntegrationTests.Infrastructure;
-
 using System;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
@@ -321,6 +319,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
+namespace ProjectName.IntegrationTests.Infrastructure;
 
 public sealed class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {

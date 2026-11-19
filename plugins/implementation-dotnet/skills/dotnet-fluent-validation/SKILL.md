@@ -35,7 +35,7 @@ public static class Module
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        var assembly = typeof(Module).Assembly;
+        Assembly assembly = typeof(Module).Assembly;
 
         services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
 
@@ -156,14 +156,14 @@ RuleFor(x => x.Price).SetValidator(new MoneyValidator());
 In solutions without MediatR there is no `ValidationBehaviour`, so each service method validates its own input first. The validator sits next to its request record (`internal sealed class CreateOrderRequestValidator : AbstractValidator<CreateOrderRequest>`) and is injected as `IValidator<T>`. Throw the exception type the solution's global error handler already maps to 400 — the `ValidationException` from `dotnet-error-handling` if that skill's pattern is in place:
 
 ```csharp
-namespace ProjectName.Application.Orders;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 using ValidationException = ProjectName.Blocks.Exceptions.ValidationException;
+
+namespace ProjectName.Application.Orders;
 
 internal sealed class OrderService : IOrderService
 {

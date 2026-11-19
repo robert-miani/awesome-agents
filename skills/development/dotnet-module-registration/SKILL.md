@@ -75,7 +75,7 @@ public static class Module
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        var assembly = typeof(Module).Assembly;
+        Assembly assembly = typeof(Module).Assembly;
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
@@ -116,7 +116,7 @@ public static class Module
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
-        var dbOptions = configuration
+        DatabaseOptions dbOptions = configuration
             .GetRequiredSection(DatabaseOptions.Section)
             .Get<DatabaseOptions>()!;
 
@@ -159,7 +159,7 @@ public static class Module
         services.AddHttpClient<IPaymentGateway, PaymentGatewayClient>(
             (sp, client) =>
             {
-                var opts = sp.GetRequiredService<IOptions<PaymentGatewayOptions>>().Value;
+                PaymentGatewayOptions opts = sp.GetRequiredService<IOptions<PaymentGatewayOptions>>().Value;
                 client.BaseAddress = new Uri(opts.BaseUrl);
                 client.Timeout = TimeSpan.FromSeconds(opts.TimeoutSeconds);
             })
@@ -197,7 +197,7 @@ public static class Module
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
-        var jwtOptions = configuration
+        JwtOptions jwtOptions = configuration
             .GetRequiredSection(JwtOptions.Section)
             .Get<JwtOptions>()!;
 
@@ -244,7 +244,7 @@ public static class Module
 
 ```csharp
 // src/ProjectName.Startup/Program.cs
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddDomain()
@@ -254,7 +254,7 @@ builder.Services
     .AddApi(builder.Configuration)
     .AddConsumers(builder.Configuration);
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
@@ -262,7 +262,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
+{
     app.MapOpenApi();
+}
 
 app.MapControllers();
 app.Run();

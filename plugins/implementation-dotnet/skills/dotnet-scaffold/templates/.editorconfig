@@ -1,4 +1,8 @@
 # Root .editorconfig
+# Aligned with Microsoft C# coding conventions:
+# https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
+# IDE* severities fail the build only with <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+# and <TreatWarningsAsErrors>true</TreatWarningsAsErrors> in Directory.Build.props.
 root = true
 
 
@@ -40,20 +44,20 @@ indent_size = 2
 [*.cs]
 
 csharp_indent_labels = one_less_than_current
-csharp_using_directive_placement = inside_namespace:error
+csharp_using_directive_placement = outside_namespace:warning
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_prefer_braces = true:silent
-csharp_style_namespace_declarations = file_scoped:error
+csharp_prefer_braces = true:warning
+csharp_style_namespace_declarations = file_scoped:warning
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_top_level_statements = true:silent
-csharp_style_expression_bodied_methods = false:error
+csharp_style_expression_bodied_methods = when_on_single_line:silent
 csharp_style_expression_bodied_constructors = false:silent
 csharp_style_expression_bodied_operators = false:silent
 csharp_style_expression_bodied_properties = true:silent
 csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
-csharp_style_expression_bodied_local_functions = false:silent
+csharp_style_expression_bodied_local_functions = when_on_single_line:silent
 csharp_space_around_binary_operators = before_and_after
 csharp_style_throw_expression = true:suggestion
 csharp_style_prefer_null_check_over_type_check = true:suggestion
@@ -77,10 +81,10 @@ csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
 csharp_style_prefer_not_pattern = true:suggestion
 csharp_style_prefer_extended_property_pattern = true:suggestion
-csharp_style_var_for_built_in_types = false:silent
-csharp_style_var_when_type_is_apparent = false:silent
-csharp_style_var_elsewhere = false:silent
-csharp_style_prefer_primary_constructors = false:suggestion
+csharp_style_var_for_built_in_types = false:warning
+csharp_style_var_when_type_is_apparent = true:silent
+csharp_style_var_elsewhere = false:warning
+csharp_style_prefer_primary_constructors = true:silent
 
 # CS8604: Possible null reference argument
 dotnet_diagnostic.CS8604.severity = error
@@ -161,22 +165,25 @@ dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:silent
 dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:silent
 dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:silent
 dotnet_style_parentheses_in_other_operators = never_if_unnecessary:silent
-dotnet_style_qualification_for_field = false:silent
-dotnet_style_qualification_for_property = false:silent
-dotnet_style_qualification_for_method = false:silent
-dotnet_style_qualification_for_event = false:silent
+dotnet_style_qualification_for_field = false:warning
+dotnet_style_qualification_for_property = false:warning
+dotnet_style_qualification_for_method = false:warning
+dotnet_style_qualification_for_event = false:warning
 
 # Sorting rules
 dotnet_sort_system_directives_first = true:error
 
 
 # IDE preferences
-dotnet_diagnostic.IDE0022.severity = error    # Use block body for method
+dotnet_diagnostic.IDE0003.severity = warning  # Remove this. qualification
+dotnet_diagnostic.IDE0007.severity = silent   # Use var (allowed only when type is apparent)
+dotnet_diagnostic.IDE0008.severity = warning  # Use explicit type instead of var
+dotnet_diagnostic.IDE0011.severity = warning  # Add braces
 dotnet_diagnostic.IDE0046.severity = none     # Convert to conditional expression
 dotnet_diagnostic.IDE0055.severity = error    # Formatting rule
 dotnet_diagnostic.IDE0058.severity = none     # Expression value is never used
-dotnet_diagnostic.IDE0065.severity = error    # Misplaced using directive
-dotnet_diagnostic.IDE0161.severity = error    # Convert to file-scoped namespace
+dotnet_diagnostic.IDE0065.severity = warning  # Misplaced using directive (outside namespace)
+dotnet_diagnostic.IDE0161.severity = warning  # Convert to file-scoped namespace
 dotnet_diagnostic.IDE0270.severity = none     # Use coalesce expression
 
 
@@ -185,7 +192,7 @@ dotnet_diagnostic.SA1009.severity = none      # Closing parenthesis spacing
 dotnet_diagnostic.SA1101.severity = none      # Prefix local calls with 'this'
 dotnet_diagnostic.SA1111.severity = none      # Closing parenthesis placement
 dotnet_diagnostic.SA1118.severity = none      # Parameter spans multiple lines
-dotnet_diagnostic.SA1200.severity = error     # Using directives placement
+dotnet_diagnostic.SA1200.severity = none      # Using placement: StyleCop wants inside, we follow Microsoft (outside, IDE0065)
 dotnet_diagnostic.SA1306.severity = none      # Field names lower case
 dotnet_diagnostic.SA1309.severity = none      # Field should not begin with underscore
 dotnet_diagnostic.SA1413.severity = none      # Trailing comma

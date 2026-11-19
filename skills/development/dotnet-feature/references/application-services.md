@@ -16,8 +16,8 @@ Application layer, its registration, and the controller differ.
   and called at the **start** of the method — there is no pipeline behaviour to do it for you.
 - Every method takes a `CancellationToken` and passes it on.
 - Controllers inject the interface, never the implementation.
-- Follow `dotnet-code-style` (file-scoped namespaces, usings inside the namespace, explicit types,
-  traditional constructors, `_` field prefix, block bodies).
+- Follow `dotnet-code-style` (file-scoped namespaces with usings above them, `var` only when the
+  type is apparent, braces always, `_` field prefix).
 
 ## File Structure
 
@@ -34,10 +34,10 @@ src/Application/ProjectName.Application/
 
 ```csharp
 // src/Application/ProjectName.Application/Orders/CreateOrderRequest.cs
-namespace ProjectName.Application.Orders;
-
 using System;
 using FluentValidation;
+
+namespace ProjectName.Application.Orders;
 
 public sealed record CreateOrderRequest(Guid CustomerId, decimal Total);
 
@@ -60,12 +60,12 @@ internal sealed class CreateOrderRequestValidator : AbstractValidator<CreateOrde
 
 ```csharp
 // src/Application/ProjectName.Application/Orders/IOrderService.cs
-namespace ProjectName.Application.Orders;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using ProjectName.Application.Contracts.Dtos;
+
+namespace ProjectName.Application.Orders;
 
 public interface IOrderService
 {
@@ -79,8 +79,6 @@ public interface IOrderService
 
 ```csharp
 // src/Application/ProjectName.Application/Orders/OrderService.cs
-namespace ProjectName.Application.Orders;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,6 +88,8 @@ using ProjectName.Application.Contracts.Dtos;
 using ProjectName.Application.Contracts.Persistence;
 using ProjectName.Domain.Orders;
 using ValidationException = ProjectName.Blocks.Exceptions.ValidationException;
+
+namespace ProjectName.Application.Orders;
 
 internal sealed class OrderService : IOrderService
 {
@@ -150,12 +150,12 @@ and check that the global error handler maps `FluentValidation.ValidationExcepti
 
 ```csharp
 // src/Application/ProjectName.Application/Module.cs
-namespace ProjectName.Application;
-
 using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectName.Application.Orders;
+
+namespace ProjectName.Application;
 
 public static class Module
 {
@@ -179,8 +179,6 @@ and makes a missing registration fail fast at startup with a clear DI error.
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Controllers/Orders/v1/OrdersController.cs
-namespace ProjectName.Presentation.Api.Controllers.Orders.v1;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -189,6 +187,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectName.Application.Contracts.Dtos;
 using ProjectName.Application.Orders;
+
+namespace ProjectName.Presentation.Api.Controllers.Orders.v1;
 
 [ApiController]
 [ApiVersion("1.0")]

@@ -47,10 +47,10 @@ Custom exceptions live in the **Blocks** shared package (`ProjectName.Blocks.Exc
 
 ```csharp
 // ProjectName.Blocks/Exceptions/DomainException.cs
-namespace ProjectName.Blocks.Exceptions;
-
 using System;
 using System.Collections.Generic;
+
+namespace ProjectName.Blocks.Exceptions;
 
 /// <summary>
 /// Base class for all domain exceptions.
@@ -76,9 +76,9 @@ public abstract class DomainException : Exception
 
 ```csharp
 // ProjectName.Blocks/Exceptions/ValidationException.cs
-namespace ProjectName.Blocks.Exceptions;
-
 using System.Collections.Generic;
+
+namespace ProjectName.Blocks.Exceptions;
 
 /// <summary>
 /// Thrown when validation fails. Maps to HTTP 400 Bad Request.
@@ -108,9 +108,9 @@ public sealed class ValidationException : DomainException
 
 ```csharp
 // ProjectName.Blocks/Exceptions/NotFoundException.cs
-namespace ProjectName.Blocks.Exceptions;
-
 using System.Collections.Generic;
+
+namespace ProjectName.Blocks.Exceptions;
 
 /// <summary>
 /// Thrown when a requested resource is not found. Maps to HTTP 404 Not Found.
@@ -224,8 +224,6 @@ public sealed class ConflictException : DomainException
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Module.cs
-namespace ProjectName.Presentation.Api;
-
 using System;
 using Asp.Versioning;
 using Hellang.Middleware.ProblemDetails;
@@ -235,6 +233,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProjectName.Blocks.Exceptions;
+
+namespace ProjectName.Presentation.Api;
 
 public static class Module
 {
@@ -453,8 +453,6 @@ When using the `ValidationBehaviour` pipeline, FluentValidation errors are autom
 
 ```csharp
 // src/Application/ProjectName.Application/Behaviours/ValidationBehaviour.cs
-namespace ProjectName.Application.Behaviours;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -463,6 +461,8 @@ using FluentValidation;
 using MediatR;
 using ProjectName.Blocks.Exceptions;
 using ValidationException = ProjectName.Blocks.Exceptions.ValidationException;
+
+namespace ProjectName.Application.Behaviours;
 
 internal sealed class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull

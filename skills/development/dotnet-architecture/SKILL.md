@@ -303,10 +303,10 @@ Before writing code in an existing solution:
 ## Code Style Requirements
 
 All generated code MUST follow `dotnet-code-style` conventions:
-- File-scoped namespaces (`namespace Foo;`)
-- `using` directives inside namespace, System usings first
-- No primary constructors — use traditional constructors
-- No expression-bodied methods — use block bodies `{ }`
-- Explicit types (no `var`)
-- Private fields use `_` prefix (no `this.` prefix)
-- No `this.` prefix for member access
+- File-scoped namespaces (`namespace Foo;`), `using` directives above the namespace, System usings first
+- `var` only when the type is apparent (`new Foo()`); explicit types otherwise and in `foreach`
+- Braces on every control statement
+- Private fields use `_` prefix, no `this.` prefix
+- Primary constructors allowed on C# 12+; expression bodies only for single-line members
+- `DateTimeOffset` for timestamps
+- The solution `.editorconfig` is the source of truth; `dotnet build` must show no `IDE*` warnings

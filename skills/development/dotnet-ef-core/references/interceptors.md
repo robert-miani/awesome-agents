@@ -31,8 +31,6 @@ public interface IAuditable
 ```
 
 ```csharp
-namespace ProjectName.Infrastructure.Db.Interceptors;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,6 +38,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using ProjectName.Domain;
+
+namespace ProjectName.Infrastructure.Db.Interceptors;
 
 internal sealed class AuditInterceptor : SaveChangesInterceptor
 {

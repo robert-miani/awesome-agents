@@ -80,11 +80,11 @@ Add to `Presentation.Api.csproj`:
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Routing/SlugifyParameterTransformer.cs
-namespace ProjectName.Presentation.Api.Routing;
-
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Routing;
+
+namespace ProjectName.Presentation.Api.Routing;
 
 /// <summary>
 /// Transforms PascalCase controller/action names to kebab-case URLs.
@@ -113,13 +113,13 @@ internal sealed partial class SlugifyParameterTransformer : IOutboundParameterTr
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Module.cs
-namespace ProjectName.Presentation.Api;
-
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectName.Presentation.Api.Routing;
+
+namespace ProjectName.Presentation.Api;
 
 public static class Module
 {
@@ -183,8 +183,6 @@ public static class Module
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Controllers/Orders/v1/OrdersController.cs
-namespace ProjectName.Presentation.Api.Controllers.Orders.v1;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -194,6 +192,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectName.Application.Contracts.Dtos;
 using ProjectName.Application.Orders;
+
+namespace ProjectName.Presentation.Api.Controllers.Orders.v1;
 
 [ApiController]
 [ApiVersion("1.0")]
@@ -252,8 +252,6 @@ When you need to create v2 of an existing controller:
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Controllers/Orders/v2/OrdersController.cs
-namespace ProjectName.Presentation.Api.Controllers.Orders.v2;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -263,6 +261,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectName.Application.Contracts.Dtos;
 using ProjectName.Application.Orders;
+
+namespace ProjectName.Presentation.Api.Controllers.Orders.v2;
 
 [ApiController]
 [ApiVersion("2.0")]
@@ -401,8 +401,6 @@ app.Run();
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Controllers/Health/v1/HealthController.cs
-namespace ProjectName.Presentation.Api.Controllers.Health.v1;
-
 using System.Threading;
 using System.Threading.Tasks;
 using Asp.Versioning;
@@ -410,6 +408,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectName.Application.Health;
+
+namespace ProjectName.Presentation.Api.Controllers.Health.v1;
 
 [ApiController]
 [ApiVersion("1.0")]

@@ -10,13 +10,13 @@ Files every scaffolded solution gets (MediatR style; for **services** style appl
 
 ```csharp
 // src/Application/ProjectName.Application/Module.cs
-namespace ProjectName.Application;
-
 using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectName.Application.Behaviours;
+
+namespace ProjectName.Application;
 
 public static class Module
 {
@@ -38,8 +38,6 @@ public static class Module
 
 ```csharp
 // src/Application/ProjectName.Application/Behaviours/ValidationBehaviour.cs
-namespace ProjectName.Application.Behaviours;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -47,6 +45,8 @@ using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+
+namespace ProjectName.Application.Behaviours;
 
 public sealed class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
@@ -92,18 +92,18 @@ public sealed class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior
 
 ```csharp
 // src/Application/ProjectName.Application/Health/GetHealth.cs
-namespace ProjectName.Application.Health;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
+namespace ProjectName.Application.Health;
+
 public static class GetHealth
 {
     public sealed record Query() : IRequest<Response>;
 
-    public sealed record Response(string Status, DateTime Timestamp, string Version);
+    public sealed record Response(string Status, DateTimeOffset Timestamp, string Version);
 
     internal sealed class Handler : IRequestHandler<Query, Response>
     {
@@ -111,7 +111,7 @@ public static class GetHealth
         {
             Response response = new(
                 Status: "Healthy",
-                Timestamp: DateTime.UtcNow,
+                Timestamp: DateTimeOffset.UtcNow,
                 Version: typeof(Handler).Assembly.GetName().Version?.ToString() ?? "1.0.0");
 
             return Task.FromResult(response);
@@ -124,12 +124,12 @@ public static class GetHealth
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/Module.cs
-namespace ProjectName.Infrastructure.Db;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectName.Infrastructure.Db.Options;
+
+namespace ProjectName.Infrastructure.Db;
 
 public static class Module
 {
@@ -159,12 +159,12 @@ public static class Module
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/Module.cs
-namespace ProjectName.Infrastructure.Db;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectName.Infrastructure.Db.Options;
+
+namespace ProjectName.Infrastructure.Db;
 
 public static class Module
 {
@@ -193,9 +193,9 @@ public static class Module
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/Options/DatabaseOptions.cs
-namespace ProjectName.Infrastructure.Db.Options;
-
 using System.ComponentModel.DataAnnotations;
+
+namespace ProjectName.Infrastructure.Db.Options;
 
 public sealed class DatabaseOptions
 {
@@ -210,9 +210,9 @@ public sealed class DatabaseOptions
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/AppDbContext.cs
-namespace ProjectName.Infrastructure.Db;
-
 using Microsoft.EntityFrameworkCore;
+
+namespace ProjectName.Infrastructure.Db;
 
 public sealed class AppDbContext : DbContext
 {
@@ -234,10 +234,10 @@ public sealed class AppDbContext : DbContext
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Http/Module.cs
-namespace ProjectName.Infrastructure.Http;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+namespace ProjectName.Infrastructure.Http;
 
 public static class Module
 {
@@ -255,7 +255,7 @@ public static class Module
         // services.AddHttpClient<IExternalService, ExternalServiceClient>(
         //     (sp, client) =>
         //     {
-        //         var opts = sp.GetRequiredService<IOptions<ExternalServiceOptions>>().Value;
+        //         ExternalServiceOptions opts = sp.GetRequiredService<IOptions<ExternalServiceOptions>>().Value;
         //         client.BaseAddress = new Uri(opts.BaseUrl);
         //     });
 
@@ -268,11 +268,11 @@ public static class Module
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Routing/SlugifyParameterTransformer.cs
-namespace ProjectName.Presentation.Api.Routing;
-
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Routing;
+
+namespace ProjectName.Presentation.Api.Routing;
 
 /// <summary>
 /// Transforms PascalCase controller/action names to kebab-case URLs.
@@ -301,13 +301,13 @@ internal sealed partial class SlugifyParameterTransformer : IOutboundParameterTr
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Module.cs
-namespace ProjectName.Presentation.Api;
-
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectName.Presentation.Api.Routing;
+
+namespace ProjectName.Presentation.Api;
 
 public static class Module
 {
@@ -348,8 +348,6 @@ public static class Module
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Controllers/Health/v1/HealthController.cs
-namespace ProjectName.Presentation.Api.Controllers.Health.v1;
-
 using System.Threading;
 using System.Threading.Tasks;
 using Asp.Versioning;
@@ -357,6 +355,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectName.Application.Health;
+
+namespace ProjectName.Presentation.Api.Controllers.Health.v1;
 
 [ApiController]
 [ApiVersion("1.0")]

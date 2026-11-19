@@ -113,7 +113,7 @@ tests/
 - **Build the SUT in the constructor** (xUnit creates a new instance per test), substitutes in `readonly` fields.
 - **Cancellation:** pass `TestContext.Current.CancellationToken` (xUnit v3) to async calls — the xUnit analyzer flags tests that don't.
 - **Data-driven:** `[Theory]` + `[InlineData]` for boundaries; `[MemberData]`/`TheoryData<T>` for complex objects.
-- **Code style:** all `dotnet-code-style` rules apply — explicit types, file-scoped namespaces, usings inside the namespace, traditional constructors, `_` fields, block bodies.
+- **Code style:** all `dotnet-code-style` rules apply — file-scoped namespaces with usings above them, `var` only when the type is apparent, braces always, `_` fields.
 
 ---
 
@@ -122,12 +122,12 @@ tests/
 ### Domain entity (no substitutes)
 
 ```csharp
-namespace ProjectName.Domain.UnitTests.Orders;
-
 using System;
 using ProjectName.Domain.Orders;
 using Shouldly;
 using Xunit;
+
+namespace ProjectName.Domain.UnitTests.Orders;
 
 public sealed class OrderTests
 {
@@ -163,8 +163,6 @@ public sealed class OrderTests
 ### MediatR handler
 
 ```csharp
-namespace ProjectName.Application.UnitTests.Orders;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -174,6 +172,8 @@ using ProjectName.Application.Orders;
 using ProjectName.Domain.Orders;
 using Shouldly;
 using Xunit;
+
+namespace ProjectName.Application.UnitTests.Orders;
 
 public sealed class CreateOrderTests
 {
@@ -213,8 +213,6 @@ The `ValidationBehaviour` is not part of a handler unit test — test the valida
 The validator is real, not substituted — it is deterministic and cheap, and a substituted validator would hide rule bugs.
 
 ```csharp
-namespace ProjectName.Application.UnitTests.Orders;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -226,6 +224,8 @@ using ProjectName.Blocks.Exceptions;
 using ProjectName.Domain.Orders;
 using Shouldly;
 using Xunit;
+
+namespace ProjectName.Application.UnitTests.Orders;
 
 public sealed class OrderServiceTests
 {
@@ -273,12 +273,12 @@ public sealed class OrderServiceTests
 ### Validator (FluentValidation test helpers)
 
 ```csharp
-namespace ProjectName.Application.UnitTests.Orders;
-
 using System;
 using FluentValidation.TestHelper;
 using ProjectName.Application.Orders;
 using Xunit;
+
+namespace ProjectName.Application.UnitTests.Orders;
 
 public sealed class CreateOrderValidatorTests
 {

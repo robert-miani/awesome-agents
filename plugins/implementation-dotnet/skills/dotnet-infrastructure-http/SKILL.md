@@ -127,8 +127,8 @@ internal sealed class LoggingHandler(ILogger<LoggingHandler> logger) : Delegatin
     {
         logger.LogInformation("HTTP {Method} {Uri}", request.Method, request.RequestUri);
 
-        var sw = Stopwatch.StartNew();
-        var response = await base.SendAsync(request, ct);
+        Stopwatch sw = Stopwatch.StartNew();
+        HttpResponseMessage response = await base.SendAsync(request, ct);
         sw.Stop();
 
         logger.LogInformation("HTTP {Method} {Uri} responded {StatusCode} in {ElapsedMs}ms",
@@ -155,26 +155,26 @@ internal sealed class PaymentGatewayClient(
 {
     public async Task<PaymentResult> ChargeAsync(ChargeRequest request, CancellationToken ct = default)
     {
-        var response = await http.PostAsJsonAsync("/v1/charges", request, ct);
+        HttpResponseMessage response = await http.PostAsJsonAsync("/v1/charges", request, ct);
 
         if (!response.IsSuccessStatusCode)
         {
-            var error = await response.Content.ReadAsStringAsync(ct);
+            string error = await response.Content.ReadAsStringAsync(ct);
             logger.LogWarning("Charge failed {StatusCode}: {Error}", (int)response.StatusCode, error);
             return new PaymentResult(string.Empty, false, error);
         }
 
-        var result = await response.Content.ReadFromJsonAsync<PaymentGatewayChargeResponse>(ct);
+        PaymentGatewayChargeResponse? result = await response.Content.ReadFromJsonAsync<PaymentGatewayChargeResponse>(ct);
         return new PaymentResult(result!.TransactionId, true, null);
     }
 
     public async Task<PaymentResult> RefundAsync(Guid paymentId, CancellationToken ct = default)
     {
-        var response = await http.PostAsync($"/v1/charges/{paymentId}/refund", null, ct);
+        HttpResponseMessage response = await http.PostAsync($"/v1/charges/{paymentId}/refund", null, ct);
 
         if (!response.IsSuccessStatusCode)
         {
-            var error = await response.Content.ReadAsStringAsync(ct);
+            string error = await response.Content.ReadAsStringAsync(ct);
             logger.LogWarning("Refund failed {StatusCode}: {Error}", (int)response.StatusCode, error);
             return new PaymentResult(string.Empty, false, error);
         }
@@ -208,7 +208,7 @@ public static class Module
         services.AddHttpClient<IPaymentGateway, PaymentGatewayClient>(
             (sp, client) =>
             {
-                var opts = sp.GetRequiredService<IOptions<PaymentGatewayOptions>>().Value;
+                PaymentGatewayOptions opts = sp.GetRequiredService<IOptions<PaymentGatewayOptions>>().Value;
                 client.BaseAddress = new Uri(opts.BaseUrl);
                 client.Timeout = TimeSpan.FromSeconds(opts.TimeoutSeconds);
             })

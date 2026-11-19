@@ -101,9 +101,9 @@ src/
 
 ```csharp
 // src/Domain/ProjectName.Domain/Orders/Order.cs
-namespace ProjectName.Domain.Orders;
-
 using System;
+
+namespace ProjectName.Domain.Orders;
 
 public sealed class Order
 {
@@ -111,7 +111,7 @@ public sealed class Order
     public Guid CustomerId { get; private set; }
     public OrderStatus Status { get; private set; }
     public decimal Total { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public DateTimeOffset CreatedAt { get; private set; }
 
     // EF Core requires parameterless constructor
     private Order()
@@ -124,7 +124,7 @@ public sealed class Order
         CustomerId = customerId;
         Total = total;
         Status = OrderStatus.Pending;
-        CreatedAt = DateTime.UtcNow;
+        CreatedAt = DateTimeOffset.UtcNow;
     }
 
     public void Confirm()
@@ -156,13 +156,13 @@ public enum OrderStatus
 
 ```csharp
 // src/Application/ProjectName.Application.Contracts/Persistence/IOrderRepository.cs
-namespace ProjectName.Application.Contracts.Persistence;
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ProjectName.Domain.Orders;
+
+namespace ProjectName.Application.Contracts.Persistence;
 
 public interface IOrderRepository
 {
@@ -177,24 +177,22 @@ public interface IOrderRepository
 
 ```csharp
 // src/Application/ProjectName.Application.Contracts/Dtos/OrderDto.cs
-namespace ProjectName.Application.Contracts.Dtos;
-
 using System;
+
+namespace ProjectName.Application.Contracts.Dtos;
 
 public sealed record OrderDto(
     Guid Id,
     Guid CustomerId,
     string Status,
     decimal Total,
-    DateTime CreatedAt);
+    DateTimeOffset CreatedAt);
 ```
 
 ### Command with Validator and Handler (Application)
 
 ```csharp
 // src/Application/ProjectName.Application/Orders/CreateOrder.cs
-namespace ProjectName.Application.Orders;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -202,6 +200,8 @@ using FluentValidation;
 using MediatR;
 using ProjectName.Application.Contracts.Persistence;
 using ProjectName.Domain.Orders;
+
+namespace ProjectName.Application.Orders;
 
 public static class CreateOrder
 {
@@ -247,8 +247,6 @@ public static class CreateOrder
 
 ```csharp
 // src/Application/ProjectName.Application/Orders/GetOrderById.cs
-namespace ProjectName.Application.Orders;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -256,6 +254,8 @@ using MediatR;
 using ProjectName.Application.Contracts.Dtos;
 using ProjectName.Application.Contracts.Persistence;
 using ProjectName.Domain.Orders;
+
+namespace ProjectName.Application.Orders;
 
 public static class GetOrderById
 {
@@ -294,8 +294,6 @@ public static class GetOrderById
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/Persistence/OrderRepository.cs
-namespace ProjectName.Infrastructure.Db.Persistence;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -304,6 +302,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectName.Application.Contracts.Persistence;
 using ProjectName.Domain.Orders;
+
+namespace ProjectName.Infrastructure.Db.Persistence;
 
 internal sealed class OrderRepository : IOrderRepository
 {
@@ -343,11 +343,11 @@ internal sealed class OrderRepository : IOrderRepository
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/Configurations/OrderConfiguration.cs
-namespace ProjectName.Infrastructure.Db.Configurations;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProjectName.Domain.Orders;
+
+namespace ProjectName.Infrastructure.Db.Configurations;
 
 internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
@@ -384,8 +384,6 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Controllers/Orders/v1/OrdersController.cs
-namespace ProjectName.Presentation.Api.Controllers.Orders.v1;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -395,6 +393,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectName.Application.Contracts.Dtos;
 using ProjectName.Application.Orders;
+
+namespace ProjectName.Presentation.Api.Controllers.Orders.v1;
 
 [ApiController]
 [ApiVersion("1.0")]

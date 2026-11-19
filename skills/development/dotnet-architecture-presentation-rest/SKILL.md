@@ -99,8 +99,6 @@ The Presentation layer exposes two extension methods:
 ### Module.cs Template
 
 ```csharp
-namespace ProjectName.Presentation.Api;
-
 using System;
 using System.Threading.Tasks;
 using Asp.Versioning;
@@ -117,6 +115,8 @@ using ProjectName.Domain.Exceptions;
 using ProjectName.Presentation.Api.Routing;
 using Scalar.AspNetCore;
 using ValidationException = ProjectName.Domain.Exceptions.ValidationException;
+
+namespace ProjectName.Presentation.Api;
 
 public static class Module
 {
@@ -304,8 +304,6 @@ The `UseApi()` method configures middleware in this exact order:
 The template below is the **MediatR style**. In solutions without MediatR (see `dotnet-architecture` → *Dispatch Style*), inject the `I<Aggregate>Service` interface instead of `ISender` and call it directly — attributes, routing, auth and `ProducesResponseType` stay the same.
 
 ```csharp
-namespace ProjectName.Presentation.Api.Controllers.Feature.v1;
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -317,6 +315,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectName.Application.Feature;
 using ProjectName.Presentation.Api.Extensions;
+
+namespace ProjectName.Presentation.Api.Controllers.Feature.v1;
 
 [ApiController]
 [ApiVersion("1.0")]

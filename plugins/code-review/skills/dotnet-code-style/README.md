@@ -2,7 +2,7 @@
 
 ## Description
 
-Code style and formatting conventions for C# projects targeting .NET 9/10. Covers explicit types (no `var`), file-scoped namespaces, using placement, naming conventions, brace rules, and patterns to avoid (primary constructors, expression-bodied methods).
+Code style and formatting conventions for C# projects targeting .NET 9/10, aligned with Microsoft's official [C# coding conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions). The rules are encoded in the scaffold's `.editorconfig` and enforced at build time (`EnforceCodeStyleInBuild`). In existing repositories, the repository's own `.editorconfig` takes precedence.
 
 ## When to Use
 
@@ -15,22 +15,23 @@ Code style and formatting conventions for C# projects targeting .NET 9/10. Cover
 
 Activate this skill whenever generating or reviewing C# code. Key rules:
 
-- Explicit types — no `var`
-- File-scoped namespaces (`namespace Foo;`)
-- Usings inside namespace, System first
-- `_` prefix for private fields
-- Braces always (even single-line `if`)
-- No primary constructors, no expression-bodied methods
+- File-scoped namespaces (`namespace Foo;`), with usings **outside** the namespace and System first
+- `var` only when the type is apparent from the right-hand side; otherwise use explicit types (always in `foreach` and for built-in types)
+- Braces always, even on single-line `if`
+- `_` prefix for private fields, no `this.`
+- Primary constructors are allowed on C# 12+; their parameters are never reassigned
+- Expression bodies only for single-line members
+- `DateTimeOffset` for timestamps
 
 ## Example
 
 ```csharp
-namespace ProjectName.Application.Orders;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+
+namespace ProjectName.Application.Orders;
 
 public static class CreateOrder
 {
@@ -58,5 +59,5 @@ public static class CreateOrder
 
 ## Requirements
 
-- .NET 9 or 10
-- `<ImplicitUsings>disable</ImplicitUsings>` in Directory.Build.props
+- .NET 9 or 10 (the C# 12+ features apply only where the target framework supports them)
+- `<ImplicitUsings>disable</ImplicitUsings>` and `<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>` in Directory.Build.props

@@ -19,9 +19,9 @@ This includes:
 
 ```csharp
 // src/Domain/ProjectName.Domain/Items/Item.cs
-namespace ProjectName.Domain.Items;
-
 using System;
+
+namespace ProjectName.Domain.Items;
 
 public sealed class Item
 {
@@ -33,9 +33,9 @@ public sealed class Item
 
     public decimal Price { get; private set; }
 
-    public DateTime CreatedAt { get; private set; }
+    public DateTimeOffset CreatedAt { get; private set; }
 
-    public DateTime? UpdatedAt { get; private set; }
+    public DateTimeOffset? UpdatedAt { get; private set; }
 
     private Item()
     {
@@ -48,7 +48,7 @@ public sealed class Item
         Name = name;
         Description = description;
         Price = price;
-        CreatedAt = DateTime.UtcNow;
+        CreatedAt = DateTimeOffset.UtcNow;
     }
 
     public void Update(string name, string? description, decimal price)
@@ -56,7 +56,7 @@ public sealed class Item
         Name = name;
         Description = description;
         Price = price;
-        UpdatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTimeOffset.UtcNow;
     }
 }
 ```
@@ -65,10 +65,10 @@ public sealed class Item
 
 ```csharp
 // src/Application/ProjectName.Application.Contracts/Persistence/IUnitOfWork.cs
-namespace ProjectName.Application.Contracts.Persistence;
-
 using System.Threading;
 using System.Threading.Tasks;
+
+namespace ProjectName.Application.Contracts.Persistence;
 
 public interface IUnitOfWork
 {
@@ -80,13 +80,13 @@ public interface IUnitOfWork
 
 ```csharp
 // src/Application/ProjectName.Application.Contracts/Persistence/IItemRepository.cs
-namespace ProjectName.Application.Contracts.Persistence;
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ProjectName.Domain.Items;
+
+namespace ProjectName.Application.Contracts.Persistence;
 
 public interface IItemRepository
 {
@@ -106,8 +106,6 @@ public interface IItemRepository
 
 ```csharp
 // src/Application/ProjectName.Application/Items/CreateItem.cs
-namespace ProjectName.Application.Items;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -115,6 +113,8 @@ using FluentValidation;
 using MediatR;
 using ProjectName.Application.Contracts.Persistence;
 using ProjectName.Domain.Items;
+
+namespace ProjectName.Application.Items;
 
 public static class CreateItem
 {
@@ -169,8 +169,6 @@ public static class CreateItem
 
 ```csharp
 // src/Application/ProjectName.Application/Items/GetItemById.cs
-namespace ProjectName.Application.Items;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -178,6 +176,8 @@ using FluentValidation;
 using MediatR;
 using ProjectName.Application.Contracts.Persistence;
 using ProjectName.Domain.Items;
+
+namespace ProjectName.Application.Items;
 
 public static class GetItemById
 {
@@ -188,8 +188,8 @@ public static class GetItemById
         string Name,
         string? Description,
         decimal Price,
-        DateTime CreatedAt,
-        DateTime? UpdatedAt);
+        DateTimeOffset CreatedAt,
+        DateTimeOffset? UpdatedAt);
 
     internal sealed class Validator : AbstractValidator<Query>
     {
@@ -234,11 +234,11 @@ public static class GetItemById
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/Persistence/UnitOfWork.cs
-namespace ProjectName.Infrastructure.Db.Persistence;
-
 using System.Threading;
 using System.Threading.Tasks;
 using ProjectName.Application.Contracts.Persistence;
+
+namespace ProjectName.Infrastructure.Db.Persistence;
 
 internal sealed class UnitOfWork : IUnitOfWork
 {
@@ -260,8 +260,6 @@ internal sealed class UnitOfWork : IUnitOfWork
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/Persistence/ItemRepository.cs
-namespace ProjectName.Infrastructure.Db.Persistence;
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -269,6 +267,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectName.Application.Contracts.Persistence;
 using ProjectName.Domain.Items;
+
+namespace ProjectName.Infrastructure.Db.Persistence;
 
 internal sealed class ItemRepository : IItemRepository
 {
@@ -312,11 +312,11 @@ internal sealed class ItemRepository : IItemRepository
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/Configurations/ItemConfiguration.cs
-namespace ProjectName.Infrastructure.Db.Configurations;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProjectName.Domain.Items;
+
+namespace ProjectName.Infrastructure.Db.Configurations;
 
 internal sealed class ItemConfiguration : IEntityTypeConfiguration<Item>
 {
@@ -352,10 +352,10 @@ internal sealed class ItemConfiguration : IEntityTypeConfiguration<Item>
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/AppDbContext.cs
-namespace ProjectName.Infrastructure.Db;
-
 using Microsoft.EntityFrameworkCore;
 using ProjectName.Domain.Items;
+
+namespace ProjectName.Infrastructure.Db;
 
 public sealed class AppDbContext : DbContext
 {
@@ -381,14 +381,14 @@ Update the Module to register the repository and unit of work:
 
 ```csharp
 // src/Infrastructure/ProjectName.Infrastructure.Db/Module.cs
-namespace ProjectName.Infrastructure.Db;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectName.Application.Contracts.Persistence;
 using ProjectName.Infrastructure.Db.Options;
 using ProjectName.Infrastructure.Db.Persistence;
+
+namespace ProjectName.Infrastructure.Db;
 
 public static class Module
 {
@@ -429,8 +429,6 @@ public static class Module
 
 ```csharp
 // src/Presentation/ProjectName.Presentation.Api/Controllers/Items/v1/ItemsController.cs
-namespace ProjectName.Presentation.Api.Controllers.Items.v1;
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -439,6 +437,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectName.Application.Items;
+
+namespace ProjectName.Presentation.Api.Controllers.Items.v1;
 
 [ApiController]
 [ApiVersion("1.0")]

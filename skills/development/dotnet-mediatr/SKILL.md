@@ -40,7 +40,7 @@ public static class Module
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        var assembly = typeof(Module).Assembly;
+        Assembly assembly = typeof(Module).Assembly;
 
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssembly(assembly));
@@ -90,7 +90,7 @@ public static class CreateOrder
     {
         public async Task<Guid> Handle(Command cmd, CancellationToken ct)
         {
-            var order = Order.Create(cmd.CustomerId, cmd.Lines);
+            Order order = Order.Create(cmd.CustomerId, cmd.Lines);
             uow.Orders.Add(order);
             await uow.SaveChangesAsync(ct);
 
@@ -119,7 +119,7 @@ public static class CancelOrder
     {
         public async Task Handle(Command cmd, CancellationToken ct)
         {
-            var order = await uow.Orders.GetByIdAsync(cmd.OrderId, ct)
+            Order order = await uow.Orders.GetByIdAsync(cmd.OrderId, ct)
                 ?? throw new NotFoundException(nameof(Order), cmd.OrderId);
 
             order.Cancel();
@@ -151,7 +151,7 @@ public static class GetOrderById
     {
         public async Task<OrderDto?> Handle(Query query, CancellationToken ct)
         {
-            var order = await orders.GetWithItemsAsync(query.OrderId, ct);
+            Order? order = await orders.GetWithItemsAsync(query.OrderId, ct);
             return order is null ? null : OrderDto.From(order);
         }
     }
@@ -200,17 +200,21 @@ internal sealed class ValidationBehaviour<TRequest, TResponse>(
         CancellationToken ct)
     {
         if (!validators.Any())
+        {
             return await next();
+        }
 
-        var context = new ValidationContext<TRequest>(request);
-        var failures = validators
+        ValidationContext<TRequest> context = new ValidationContext<TRequest>(request);
+        List<ValidationFailure> failures = validators
             .Select(v => v.Validate(context))
             .SelectMany(r => r.Errors)
             .Where(f => f is not null)
             .ToList();
 
         if (failures.Count > 0)
+        {
             throw new ValidationException(failures);
+        }
 
         return await next();
     }
@@ -229,9 +233,9 @@ internal sealed class LoggingBehaviour<TRequest, TResponse>(
         RequestHandlerDelegate<TResponse> next,
         CancellationToken ct)
     {
-        var name = typeof(TRequest).Name;
+        string name = typeof(TRequest).Name;
         logger.LogInformation("Handling {RequestName}", name);
-        var response = await next();
+        TResponse response = await next();
         logger.LogInformation("Handled {RequestName}", name);
         return response;
     }
@@ -252,13 +256,15 @@ internal sealed class PerformanceBehaviour<TRequest, TResponse>(
         RequestHandlerDelegate<TResponse> next,
         CancellationToken ct)
     {
-        var sw = Stopwatch.StartNew();
-        var response = await next();
+        Stopwatch sw = Stopwatch.StartNew();
+        TResponse response = await next();
         sw.Stop();
 
         if (sw.ElapsedMilliseconds > ThresholdMs)
+        {
             logger.LogWarning("Slow request {RequestName} took {ElapsedMs}ms",
                 typeof(TRequest).Name, sw.ElapsedMilliseconds);
+        }
 
         return response;
     }
@@ -273,13 +279,13 @@ internal sealed class PerformanceBehaviour<TRequest, TResponse>(
 // Minimal API
 app.MapPost("/orders", async (CreateOrder.Command cmd, ISender sender, CancellationToken ct) =>
 {
-    var id = await sender.Send(cmd, ct);
+    Guid id = await sender.Send(cmd, ct);
     return Results.CreatedAtRoute("GetOrderById", new { id }, new { id });
 });
 
 app.MapGet("/orders/{id:guid}", async (Guid id, ISender sender, CancellationToken ct) =>
 {
-    var order = await sender.Send(new GetOrderById.Query(id), ct);
+    OrderDto? order = await sender.Send(new GetOrderById.Query(id), ct);
     return order is null ? Results.NotFound() : Results.Ok(order);
 });
 
@@ -291,14 +297,14 @@ internal sealed class OrdersController(ISender sender) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateOrder.Command cmd, CancellationToken ct)
     {
-        var id = await sender.Send(cmd, ct);
+        Guid id = await sender.Send(cmd, ct);
         return CreatedAtAction(nameof(GetById), new { id }, new { id });
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id, CancellationToken ct)
     {
-        var order = await sender.Send(new GetOrderById.Query(id), ct);
+        OrderDto? order = await sender.Send(new GetOrderById.Query(id), ct);
         return order is null ? NotFound() : Ok(order);
     }
 }

@@ -135,14 +135,14 @@ public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 ### Read-Only Queries (no tracking)
 ```csharp
 // Single item
-var order = await db.Orders
+Order? order = await db.Orders
     .AsNoTracking()
     .Include(o => o.Items)
         .ThenInclude(i => i.Product)
     .FirstOrDefaultAsync(o => o.Id == id, ct);
 
 // Projection — always project to a DTO/record for reads
-var summaries = await db.Orders
+List<OrderSummary> summaries = await db.Orders
     .AsNoTracking()
     .Where(o => o.CustomerId == customerId && o.Status == OrderStatus.Completed)
     .OrderByDescending(o => o.CreatedAt)
@@ -154,7 +154,7 @@ var summaries = await db.Orders
 
 ```csharp
 // Offset pagination (simple, use for low-volume or non-real-time data)
-var page = await db.Orders
+List<Order> page = await db.Orders
     .AsNoTracking()
     .OrderBy(o => o.CreatedAt)
     .Skip((pageNumber - 1) * pageSize)
@@ -162,7 +162,7 @@ var page = await db.Orders
     .ToListAsync(ct);
 
 // Keyset / cursor pagination (preferred for large datasets)
-var nextPage = await db.Orders
+List<Order> nextPage = await db.Orders
     .AsNoTracking()
     .Where(o => o.CreatedAt > lastSeenCreatedAt || 
                (o.CreatedAt == lastSeenCreatedAt && o.Id > lastSeenId))
@@ -175,16 +175,18 @@ var nextPage = await db.Orders
 
 ```csharp
 // BAD — N+1: EF fires one query per order to load items
-foreach (var order in orders)
+foreach (Order order in orders)
+{
     Console.WriteLine(order.Items.Count);   // lazy loads each time
+}
 
 // GOOD — eager load in single query
-var orders = await db.Orders
+List<Order> orders = await db.Orders
     .Include(o => o.Items)
     .ToListAsync(ct);
 
 // GOOD — split query for large collections (avoids cartesian explosion)
-var orders = await db.Orders
+List<Order> orders = await db.Orders
     .AsSplitQuery()
     .Include(o => o.Items)
     .Include(o => o.Customer)
@@ -198,19 +200,19 @@ private static readonly Func<AppDbContext, Guid, Task<Order?>> GetOrderById =
         db.Orders.Include(o => o.Items).FirstOrDefault(o => o.Id == id));
 
 // Usage
-var order = await GetOrderById(db, orderId);
+Order? order = await GetOrderById(db, orderId);
 ```
 
 ### Raw SQL (when LINQ isn't enough)
 ```csharp
 // Parameterised — safe from injection
-var orders = await db.Orders
+List<Order> orders = await db.Orders
     .FromSqlInterpolated($"SELECT * FROM orders WHERE customer_id = {customerId}")
     .AsNoTracking()
     .ToListAsync(ct);
 
 // Non-entity result sets
-var stats = await db.Database
+List<OrderStats> stats = await db.Database
     .SqlQuery<OrderStats>($"SELECT status, COUNT(*) as count FROM orders GROUP BY status")
     .ToListAsync(ct);
 
@@ -225,7 +227,7 @@ await db.Database.ExecuteSqlInterpolatedAsync(
 
 ```csharp
 // Add
-var order = Order.Create(request);
+Order order = Order.Create(request);
 db.Orders.Add(order);
 await db.SaveChangesAsync(ct);
 
@@ -257,7 +259,7 @@ await db.Orders
 
 ```csharp
 // Explicit transaction
-await using var tx = await db.Database.BeginTransactionAsync(ct);
+await using IDbContextTransaction tx = await db.Database.BeginTransactionAsync(ct);
 try
 {
     db.Orders.Add(order);
@@ -296,7 +298,7 @@ dotnet ef migrations script --idempotent -o migrations.sql
 
 # Programmatic migration on startup (for containers/CI)
 # In Program.cs:
-await using var scope = app.Services.CreateAsyncScope();
+await using AsyncServiceScope scope = app.Services.CreateAsyncScope();
 await scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.MigrateAsync();
 ```
 
